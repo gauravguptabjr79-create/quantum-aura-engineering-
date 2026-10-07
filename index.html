@@ -69,7 +69,7 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
   <p class="sigilnote">Use this as a reflective/spiritual-wellness practice. It is not a medical treatment or a guarantee of a specific outcome.</p>
   <div class="neoactions">
     <button class="btn ghost" onclick="createPersonalMantra()">REBUILD MANTRA</button>
-    <button class="btn" onclick="copyPersonalMantra()">COPY MANTRA</button>
+    <button class="btn" onclick="copyPersonalMantra(this)">COPY MANTRA</button>
     <button class="btn ghost" onclick="closeScan()">CLOSE</button>
   </div>
 </div>
@@ -127,6 +127,9 @@ function downloadNeoYantra(){
 }
 
 function createPersonalMantra(){
+ const panel=$('mantrapanel'), neo=$('neopanel');
+ if(!panel||!neo){alert('Mantra panel could not load. Please refresh the page.');return}
+ if(panel.parentElement!==neo) neo.appendChild(panel);
  const intention=answers.intention||'Clarity', mode=answers.mode||'Exploring', focus=answers.focus||'Personal Growth';
  const mantras={
   Clarity:'Main shaant mann se apne sahi agle kadam ko spasht roop se pehchanta hoon.',
@@ -154,10 +157,17 @@ function createPersonalMantra(){
  $('mantrapanel').scrollIntoView({behavior:'smooth',block:'start'});
  localStorage.setItem('qae_personal_mantra',JSON.stringify({mantra,intention,mode,focus,practice:answers.practice||'',name:answers.name||''}));
 }
-function copyPersonalMantra(){
+function copyPersonalMantra(btn){
  const el=$('mantrawords');if(!el)return;
  const t=el.textContent.replace(/[“”]/g,'');
- if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>{const b=event&&event.target;if(b){const old=b.textContent;b.textContent='COPIED ✓';setTimeout(()=>b.textContent=old,1200)}}).catch(()=>{});}
+ const done=()=>{if(btn){const old=btn.textContent;btn.textContent='COPIED ✓';setTimeout(()=>btn.textContent=old,1200)}};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}
+ else fallbackCopy(t,done);
+}
+function fallbackCopy(t,done){
+ const a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();
+ try{document.execCommand('copy');done()}catch(e){}
+ a.remove();
 }
 
 function retake(){answers={};qIndex=0;if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');$('result').classList.remove('show');$('questions').style.display='block';document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
