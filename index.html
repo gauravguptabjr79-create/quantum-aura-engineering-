@@ -28,6 +28,9 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 
 .neopanel{display:none;margin-top:18px;padding:18px;border:1px solid #9b78ff66;border-radius:22px;background:radial-gradient(circle at 50% 40%,#291b5788,#050713 70%);text-align:center}.neopanel.show{display:block}.neoframe{width:min(100%,390px);aspect-ratio:1;margin:16px auto;border:1px solid #e9c77b55;border-radius:26px;background:#030611;display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 65px #9b78ff18,0 0 38px #63eaff18}.neoframe svg{width:96%;height:96%;filter:drop-shadow(0 0 7px #63eaff66)}.neoquote{padding:13px;border:1px solid #e9c77b44;border-radius:14px;background:#e9c77b0b;margin:13px 0}.neoactions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 @media(max-width:820px){.links,.navscan{display:none}.hero,.cards3,.journey,.split,.integrate{grid-template-columns:1fr}.hero{padding-top:55px}.hero h1{font-size:13vw}.aura{height:310px}.r1{width:270px;height:270px}.r2{width:210px;height:210px}.r3{width:150px;height:150px}.services,.resultgrid,.sigilmeta{grid-template-columns:1fr}}
+
+.mantrapanel{display:none;margin-top:18px;padding:18px;border:1px solid #e9c77b55;border-radius:20px;background:radial-gradient(circle at 50% 20%,#34205f88,#050713 72%);text-align:center}.mantrapanel.show{display:block}.mantracard{margin:15px 0;padding:18px;border:1px solid #63eaff55;border-radius:18px;background:#071020;box-shadow:inset 0 0 38px #63eaff12}.mantrawords{font-size:21px;line-height:1.5;color:#f4e4ad;font-weight:800}.mantrasub{margin-top:9px;color:#b9c2da;font-size:13px}.mantraroutine{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;margin:13px 0}.mantraroutine div{padding:11px;border:1px solid #ffffff18;border-radius:12px;background:#ffffff07}.mantraroutine small{display:block;color:#9da6c2;margin-bottom:3px}
+
 </style></head><body>
 <nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">SCAN YOUR AURA</button></nav>
 <main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">SCAN YOUR AURA</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
@@ -48,12 +51,34 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 <div class="qstep"><div class="eyebrow">AURA-CODING™ • 5/5</div><h3>Make it personal.</h3><input id="qname" class="field" placeholder="First name (optional)"><textarea id="qprogress" class="field" rows="4" placeholder="What would meaningful progress look like for you? (optional)"></textarea><p class="notice">Your answers stay in this browser in this preview.</p><button class="btn" onclick="makeResult()">CREATE MY PROFILE</button></div></div>
 <div class="result" id="result"><div class="eyebrow">YOUR AURA-CODING™ PREVIEW</div><h3 id="rtitle"></h3><div class="resultgrid"><div class="resultbox"><small>FOCUS AREA</small><b id="rfocus"></b></div><div class="resultbox"><small>CURRENT MODE</small><b id="rmode"></b></div><div class="resultbox"><small>CORE INTENTION</small><b id="rintent"></b></div><div class="resultbox"><small>PRACTICE ANCHOR</small><b id="rpractice"></b></div></div><p id="rtext" class="muted"></p><div class="practice"><b>Suggested 5–10 minute practice</b><p id="rpracticeText"></p></div><p class="notice">This is a reflective spiritual-wellness profile, not a medical, psychological or scientific diagnosis.</p><div class="actions"><button class="btn ghost" onclick="retake()">RETAKE</button><button class="btn" onclick="createSigil()">CREATE MY PERSONAL SIGIL™</button></div>
 <div class="sigilpanel" id="sigilpanel"><div class="eyebrow">PERSONAL SIGIL™</div><h3 id="sigiltitle">Your Intention Symbol</h3><p class="muted">A deterministic artistic symbol created from your Aura-Coding™ selections.</p><div class="sigilframe" id="sigilframe"></div><div class="sigilmeta"><div><small>INTENTION</small><b id="sigilintent"></b></div><div><small>SYMBOL CODE</small><b id="sigilcode"></b></div></div><p class="sigilnote">This symbol is an artistic intention anchor for reflective/spiritual-wellness practice; it is not a diagnostic or scientifically measured energy signature.</p><div class="actions" style="justify-content:center"><button class="btn ghost" onclick="createSigil()">REGENERATE</button><button class="btn" onclick="downloadSigil()">SAVE SIGIL</button><button class="btn" onclick="createNeoYantra()">CREATE MY NEO-YANTRA™</button></div>
-<div class="neopanel" id="neopanel"><div class="eyebrow">PERSONAL NEO-YANTRA™</div><h3 id="neotitle">Your Personal Intention Artwork</h3><p class="muted">Your Personal Sigil™ placed inside a richer sacred-geometry-inspired composition.</p><div class="neoframe" id="neoframe"></div><div class="neoquote"><small class="muted">21-DAY INTENTION</small><br><b id="neointention"></b></div><p class="sigilnote">Use this artwork as a visual focus during your reflective practice. It is artistic/spiritual-wellness content, not a scientifically measured energy field.</p><div class="neoactions"><button class="btn ghost" onclick="createNeoYantra()">REGENERATE</button><button class="btn" onclick="downloadNeoYantra()">SAVE NEO-YANTRA</button><button class="btn ghost" onclick="closeScan()">CLOSE</button></div></div></div></div></div></div></div>
+<div class="neopanel" id="neopanel"><div class="eyebrow">PERSONAL NEO-YANTRA™</div><h3 id="neotitle">Your Personal Intention Artwork</h3><p class="muted">Your Personal Sigil™ placed inside a richer sacred-geometry-inspired composition.</p><div class="neoframe" id="neoframe"></div><div class="neoquote"><small class="muted">21-DAY INTENTION</small><br><b id="neointention"></b></div><p class="sigilnote">Use this artwork as a visual focus during your reflective practice. It is artistic/spiritual-wellness content, not a scientifically measured energy field.</p><div class="neoactions"><button class="btn ghost" onclick="createNeoYantra()">REGENERATE</button><button class="btn" onclick="downloadNeoYantra()">SAVE NEO-YANTRA</button>
+    <button class="btn" onclick="createPersonalMantra()">GENERATE MY MANTRA™</button><button class="btn ghost" onclick="closeScan()">CLOSE</button></div></div></div></div></div></div></div>
+
+<div class="mantrapanel" id="mantrapanel">
+  <div class="eyebrow">PERSONAL MANTRA™</div>
+  <h3 id="mantratitle">Your 21-Day Mantra</h3>
+  <p class="muted">Created from your Aura-Coding™ focus, current mode and chosen intention.</p>
+  <div class="mantracard">
+    <div class="mantrawords" id="mantrawords"></div>
+    <div class="mantrasub" id="mantrameaning"></div>
+  </div>
+  <div class="mantraroutine">
+    <div><small>DAILY PRACTICE</small><b id="mantratime">5–10 minutes</b></div>
+    <div><small>21-DAY FOCUS</small><b id="mantrafocus"></b></div>
+  </div>
+  <p class="sigilnote">Use this as a reflective/spiritual-wellness practice. It is not a medical treatment or a guarantee of a specific outcome.</p>
+  <div class="neoactions">
+    <button class="btn ghost" onclick="createPersonalMantra()">REBUILD MANTRA</button>
+    <button class="btn" onclick="copyPersonalMantra()">COPY MANTRA</button>
+    <button class="btn ghost" onclick="closeScan()">CLOSE</button>
+  </div>
+</div>
+
 <script>
 let L=localStorage.getItem('qae_lang')||'en',stream=null,timer=null,answers={},qIndex=0;
 const $=id=>document.getElementById(id);
 function setLang(l){L=l;localStorage.setItem('qae_lang',l);$('enBtn').classList.toggle('on',l==='en');$('hiBtn').classList.toggle('on',l==='hi')}
-function resetFlow(){$('cam').style.display='';$('scanbody').style.display='block';$('assessment').classList.remove('show');$('questions').style.display='block';$('result').classList.remove('show');if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');$('done').style.display='none';$('allow').style.display='inline-block';$('start').style.display='none';$('start').disabled=false;$('ph').style.display='grid';$('bar').style.width='0';$('status').textContent='Allow front-camera access to begin.';answers={};qIndex=0;document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
+function resetFlow(){$('cam').style.display='';$('scanbody').style.display='block';$('assessment').classList.remove('show');$('questions').style.display='block';$('result').classList.remove('show');if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');if($('mantrapanel'))$('mantrapanel').classList.remove('show');$('done').style.display='none';$('allow').style.display='inline-block';$('start').style.display='none';$('start').disabled=false;$('ph').style.display='grid';$('bar').style.width='0';$('status').textContent='Allow front-camera access to begin.';answers={};qIndex=0;document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
 function openScan(){resetFlow();$('scanner').classList.add('open');document.body.style.overflow='hidden'}
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
 function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');document.body.style.overflow='';$('cam').classList.remove('scanning')}
@@ -100,6 +125,41 @@ function createNeoYantra(){
 function downloadNeoYantra(){
  const svg=$('neosvg');if(!svg)return;const data=new XMLSerializer().serializeToString(svg),blob=new Blob([data],{type:'image/svg+xml'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='quantum-aura-personal-neo-yantra.svg';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)
 }
+
+function createPersonalMantra(){
+ const intention=answers.intention||'Clarity', mode=answers.mode||'Exploring', focus=answers.focus||'Personal Growth';
+ const mantras={
+  Clarity:'Main shaant mann se apne sahi agle kadam ko spasht roop se pehchanta hoon.',
+  Grounding:'Main is pal mein sthir, shaant aur apne aap se juda hua hoon.',
+  Confidence:'Main apni kshamata par vishwas karta hoon aur sahajta se aage badhta hoon.',
+  Connection:'Main khule dil, samman aur samajh ke saath gehre sambandh banata hoon.',
+  Consistency:'Main har din chhote, sachet aur lagataar kadam uthata hoon.',
+  Growth:'Main seekhne, badhne aur naye sambhavnayon ko apnane ke liye taiyar hoon.'
+ };
+ const meanings={
+  Clarity:'Focus: noise ko kam karke ek clear next step par dhyan dena.',
+  Grounding:'Focus: present moment, steadiness aur emotional balance.',
+  Confidence:'Focus: self-trust ke saath constructive action lena.',
+  Connection:'Focus: openness, respect aur healthy connection.',
+  Consistency:'Focus: perfection ke bajay repeatable daily action.',
+  Growth:'Focus: learning, reflection aur gradual personal development.'
+ };
+ const mantra=mantras[intention]||mantras.Clarity;
+ $('mantratitle').textContent=(answers.name?answers.name+"'s":"Your")+' Personal Mantra™';
+ $('mantrawords').textContent='“'+mantra+'”';
+ $('mantrameaning').textContent=meanings[intention]||meanings.Clarity;
+ $('mantrafocus').textContent=intention+' • '+focus;
+ $('mantratime').textContent=answers.practice==='Mantra'?'Repeat slowly for 5–10 minutes':'3 slow breaths + 7 mindful repetitions';
+ $('mantrapanel').classList.add('show');
+ $('mantrapanel').scrollIntoView({behavior:'smooth',block:'start'});
+ localStorage.setItem('qae_personal_mantra',JSON.stringify({mantra,intention,mode,focus,practice:answers.practice||'',name:answers.name||''}));
+}
+function copyPersonalMantra(){
+ const el=$('mantrawords');if(!el)return;
+ const t=el.textContent.replace(/[“”]/g,'');
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>{const b=event&&event.target;if(b){const old=b.textContent;b.textContent='COPIED ✓';setTimeout(()=>b.textContent=old,1200)}}).catch(()=>{});}
+}
+
 function retake(){answers={};qIndex=0;if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');$('result').classList.remove('show');$('questions').style.display='block';document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
 setLang(L);
 </script></body></html>
