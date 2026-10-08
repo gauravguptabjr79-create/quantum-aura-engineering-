@@ -33,6 +33,12 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 
 .journey{margin-top:20px;padding:16px;border:1px solid #63eaff55;border-radius:18px;background:#070d20}.journey h3{margin:8px 0}.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:15px 0}.day{padding:9px 0;border-radius:9px;border:1px solid #9b78ff66;background:#ffffff08;color:#e5eaff;font-weight:700;font-size:12px}.day.done{background:#164b55;border-color:#63eaff;color:white}.day.today{outline:2px solid #e9c77b}.journeybar{height:10px;border-radius:20px;background:#ffffff22;overflow:hidden}.journeybar>div{height:100%;width:0;background:linear-gradient(90deg,#63eaff,#a58bff);transition:width .25s}.journeyinfo{font-size:13px;color:#c2c9dd;margin:12px 0}.journeyactions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.journeyactions button{font-size:12px}.journeynote{font-size:11px;color:#a9b1cc;margin-top:12px}
 
+/* Mobile-safe scanner: prevent expensive full-page effects and guarantee visible overlay */
+#scanner.open{display:block!important;visibility:visible!important;opacity:1!important;position:fixed!important;inset:0!important;z-index:99999!important;overflow-y:auto!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#050817!important}
+#scanner.open .scanbox{display:block!important;position:relative;max-width:650px;margin:0 auto;transform:none!important;animation:none!important}
+#scanner.open .scanline{animation-duration:5s!important}
+@media(max-width:700px){#scanner{padding:8px!important}#scanner.open .scanbox{width:100%!important;min-height:300px}.camera{max-height:55dvh}body:has(#scanner.open) .aura,body:has(#scanner.open) .ring{animation-play-state:paused!important}}
+@media(prefers-reduced-motion:reduce){#scanner *{animation:none!important;transition:none!important}}
 </style></head><body>
 <nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">SCAN YOUR AURA</button></nav>
 <main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">SCAN YOUR AURA</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
@@ -83,9 +89,36 @@ let L=localStorage.getItem('qae_lang')||'en',stream=null,timer=null,answers={},q
 const $=id=>document.getElementById(id);
 function setLang(l){L=l;localStorage.setItem('qae_lang',l);$('enBtn').classList.toggle('on',l==='en');$('hiBtn').classList.toggle('on',l==='hi');applyLanguage()}
 function resetFlow(){$('cam').style.display='';$('scanbody').style.display='block';$('assessment').classList.remove('show');$('questions').style.display='block';$('result').classList.remove('show');if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');if($('mantrapanel'))$('mantrapanel').classList.remove('show');$('done').style.display='none';$('allow').style.display='inline-block';$('start').style.display='none';$('start').disabled=false;$('ph').style.display='grid';$('bar').style.width='0';$('status').textContent='Allow front-camera access to begin.';answers={};qIndex=0;document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
-function openScan(){resetFlow();$('scanner').classList.add('open');document.body.style.overflow='hidden'}
+function openScan(){
+ const overlay=$('scanner');
+ if(!overlay)return;
+ try{
+  stopCam();clearInterval(timer);
+  resetFlow();
+  overlay.classList.add('open');
+  overlay.style.display='block';
+  overlay.style.visibility='visible';
+  overlay.style.opacity='1';
+  overlay.scrollTop=0;
+  // Do not lock the page before confirming the scanner is visible.
+  requestAnimationFrame(()=>{
+   if(!overlay.classList.contains('open'))return;
+   const box=overlay.querySelector('.scanbox');
+   if(!box||box.getBoundingClientRect().height===0){
+    overlay.classList.remove('open');overlay.style.display='none';
+    document.body.style.overflow='';
+    alert('Scanner could not open. Please refresh and try again.');
+   }
+  });
+ }catch(err){
+  console.error('Scanner startup failed',err);
+  overlay.classList.remove('open');overlay.style.display='none';
+  document.body.style.overflow='';
+  alert('Scanner could not start. Please refresh and try again.');
+ }
+}
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
-function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');document.body.style.overflow='';$('cam').classList.remove('scanning')}
+function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');$('scanner').style.display='none';document.body.style.overflow='';$('cam').classList.remove('scanning')}
 async function cameraOn(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});$('video').srcObject=stream;$('ph').style.display='none';$('allow').style.display='none';$('start').style.display='inline-block';$('status').textContent='Position your face inside the oval guide.'}catch(e){$('status').textContent='Allow camera permission in Chrome. Camera works best on the HTTPS live site.'}}
 function scanNow(){if(!stream){cameraOn();return}let p=0;$('bar').style.width='0';$('done').style.display='none';$('cam').classList.add('scanning');$('start').disabled=true;clearInterval(timer);timer=setInterval(()=>{p+=5;$('bar').style.width=p+'%';if(p>=100){clearInterval(timer);$('cam').classList.remove('scanning');$('start').disabled=false;$('done').style.display='block';$('status').textContent='Scan experience complete.'}},250)}
 function beginAssessment(){stopCam();$('cam').style.display='none';$('scanbody').style.display='none';$('assessment').classList.add('show')}
