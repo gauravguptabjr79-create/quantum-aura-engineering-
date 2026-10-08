@@ -49,16 +49,23 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 #scanner .scanline{box-shadow:none!important}
 body:has(#scanner.open) .aura,body:has(#scanner.open) .ring,body:has(#scanner.open) .diamond,body:has(#scanner.open) .core{animation-play-state:paused!important}
 @media(max-width:700px){#scanner .camera{height:min(52vh,390px)!important;min-height:230px!important}#scanner .scanbox{border-radius:14px!important}}
+
+/* Low-resource compatibility mode: assessment first, no camera or scanner effects. */
+#scanner.open{position:relative!important;inset:auto!important;display:block!important;overflow:visible!important;z-index:1!important;background:transparent!important;}
+#scanner.open .camera,#scanner.open .scanbody{display:none!important}
+#scanner.open .assess{display:block!important}
+#scanner.open .scanbox{max-width:620px!important;margin:16px auto 35px!important;}
+@media(max-width:800px){.aura,.ring,.diamond,.core,.scanline{animation:none!important;filter:none!important}*{scroll-behavior:auto!important}}
 </style></head><body>
-<nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">SCAN YOUR AURA</button></nav>
-<main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">SCAN YOUR AURA</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
+<nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">START AURA ASSESSMENT</button></nav>
+<main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">START AURA ASSESSMENT</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
 <section id="method"><div class="wrap"><div class="head"><div class="eyebrow">THE CORE SYSTEM</div><h2>Three layers. One personal intention.</h2><p class="muted">A structured journey from reflection to a repeatable personal practice.</p></div><div class="cards3"><div class="card"><div class="icon">◉</div><h3>Aura-Coding™</h3><p class="muted">A guided self-reflection profile around your current focus, patterns, priorities and chosen intention.</p></div><div class="card"><div class="icon">✦</div><h3>Quantum Tantra™</h3><p class="muted">Breathwork, meditation, visualization, mantra and intention-setting organised into a personal practice.</p></div><div class="card"><div class="icon">◇</div><h3>Neo-Yantra™</h3><p class="muted">A personalised sacred-geometry-inspired artwork designed as your visual intention anchor.</p></div></div></div></section>
 <section><div class="wrap"><div class="head"><div class="eyebrow">YOUR JOURNEY</div><h2>ASSESS → REALIGN → CREATE → PRACTICE</h2></div><div class="journey"><div class="step"><div class="num">01 • ASSESS</div><h3>Understand your focus</h3><p class="muted">Begin with the Face Aura Experience and structured assessment.</p></div><div class="step"><div class="num">02 • REALIGN</div><h3>Choose one intention</h3><p class="muted">Turn your answers into a clear Aura-Coding™ profile.</p></div><div class="step"><div class="num">03 • CREATE</div><h3>Create your symbol</h3><p class="muted">Build a Personal Sigil™ and Neo-Yantra™ around your intention.</p></div><div class="step"><div class="num">04 • PRACTICE</div><h3>Integrate for 21 days</h3><p class="muted">Use a simple daily routine to keep your intention present.</p></div></div></div></section>
 <section id="yantra"><div class="wrap split"><div class="yantra"><div class="circle"></div><div class="sq"></div><div class="tri"></div><div class="core"></div></div><div><div class="eyebrow">PERSONAL SYMBOLISM</div><h2>Your Personal Sigil™ becomes part of your Neo-Yantra™.</h2><p class="muted">Your chosen intention guides a unique artistic symbol and sacred-geometry-inspired composition.</p><button class="btn" onclick="openScan()">BEGIN MY JOURNEY</button></div></div></section>
 <section id="services"><div class="wrap"><div class="head"><div class="eyebrow">SERVICES</div><h2>Choose how deeply you want to explore.</h2></div><div class="services"><div class="service"><div class="badge">01</div><div><b>Aura & Life Assessment</b><span class="muted">Structured reflection and personal intention profile.</span></div></div><div class="service"><div class="badge">02</div><div><b>Personal Sigil™</b><span class="muted">A symbolic mark designed around your selected intention.</span></div></div><div class="service"><div class="badge">03</div><div><b>Neo-Yantra™</b><span class="muted">Personal sacred-geometry-inspired digital artwork.</span></div></div><div class="service"><div class="badge">04</div><div><b>1-to-1 Quantum Aura Session</b><span class="muted">A guided personal wellness and intention-setting session.</span></div></div></div></div></section>
 <section><div class="wrap integrate"><div><div class="eyebrow">21-DAY INTEGRATION™</div><h2>Turn intention into a daily practice.</h2><p class="muted">Combine your intention, mantra, breathwork or meditation and Neo-Yantra™ as a visual anchor.</p></div><div class="days"><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div></div></div></section>
 <section id="faq"><div class="wrap"><div class="head"><div class="eyebrow">FAQ</div><h2>Clear answers before you begin.</h2></div><div class="faq"><details><summary>What does “Scan Your Aura” mean here?</summary><p class="muted">It starts an immersive camera experience followed by structured self-reflection. The camera does not scientifically measure an invisible aura.</p></details><details><summary>What is a Neo-Yantra™?</summary><p class="muted">Our brand term for personalised sacred-geometry-inspired digital artwork created around a chosen intention and Personal Sigil™.</p></details><details><summary>Is this medical or psychological treatment?</summary><p class="muted">No. It is a spiritual-wellness and reflective practice and is not a diagnosis, treatment or substitute for qualified healthcare.</p></details></div></div></section>
-<section><div class="wrap final"><div class="eyebrow">BEGIN YOUR PERSONAL JOURNEY</div><h2>Start with your Face Aura Experience.</h2><p class="muted">Then move into your Aura-Coding™ assessment, Personal Sigil™ and Neo-Yantra™ journey.</p><button class="btn" onclick="openScan()">SCAN YOUR AURA</button></div></section>
+<section><div class="wrap final"><div class="eyebrow">BEGIN YOUR PERSONAL JOURNEY</div><h2>Start with your Face Aura Experience.</h2><p class="muted">Then move into your Aura-Coding™ assessment, Personal Sigil™ and Neo-Yantra™ journey.</p><button class="btn" onclick="openScan()">START AURA ASSESSMENT</button></div></section>
 <footer><div class="wrap"><b>QUANTUM AURA ENGINEERING</b><p>Your Energy. Your Intention. Your Path.</p><p>For spiritual wellness and self-reflection only. Not medical, psychological or scientific diagnosis or treatment.</p></div></footer>
 <div id="scanner"><div class="scanbox"><div class="scanhead"><div><div class="eyebrow">QUANTUM AURA EXPERIENCE</div><b>Face Aura Scan</b></div><button class="x" onclick="closeScan()">×</button></div><div class="camera" id="cam"><video id="video" autoplay playsinline muted></video><div class="ph" id="ph">◎<br>Camera is not active yet</div><div class="oval"></div><div class="scanline"></div></div><div class="scanbody" id="scanbody"><b id="status">Allow front-camera access to begin.</b><div class="progress"><div class="bar" id="bar"></div></div><p class="notice">This visual camera experience does not scientifically measure an invisible aura. Your personalised profile is based on your self-reflection answers.</p><div class="actions"><button class="btn" id="allow" onclick="cameraOn()">ALLOW CAMERA</button><button class="btn ghost" id="start" style="display:none" onclick="scanNow()">START VISUAL SCAN</button></div><div class="done" id="done"><b>Visual scan complete.</b><p class="muted">Continue to your Aura-Coding™ self-reflection assessment.</p><button class="btn" onclick="beginAssessment()">CONTINUE TO ASSESSMENT</button></div></div>
 <div class="assess" id="assessment"><div id="questions">
@@ -100,22 +107,24 @@ const $=id=>document.getElementById(id);
 function setLang(l){L=l;localStorage.setItem('qae_lang',l);$('enBtn').classList.toggle('on',l==='en');$('hiBtn').classList.toggle('on',l==='hi');applyLanguage()}
 function resetFlow(){$('cam').style.display='';$('scanbody').style.display='block';$('assessment').classList.remove('show');$('questions').style.display='block';$('result').classList.remove('show');if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');if($('mantrapanel'))$('mantrapanel').classList.remove('show');$('done').style.display='none';$('allow').style.display='inline-block';$('start').style.display='none';$('start').disabled=false;$('ph').style.display='grid';$('bar').style.width='0';$('status').textContent='Allow front-camera access to begin.';answers={};qIndex=0;document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
 function openScan(){
- const overlay=$('scanner');
- if(!overlay)return;
- try{
+ // Safe mode: skip camera, animated scanner and fullscreen overlays entirely.
+ try {
   stopCam();clearInterval(timer);
   resetFlow();
-  overlay.classList.add('open');
-  overlay.style.display='block';
-  overlay.style.visibility='visible';
-  overlay.style.opacity='1';
-  document.body.style.overflow='';
-  document.documentElement.style.overflow='';
-  overlay.scrollIntoView({behavior:'auto',block:'start'});
- }catch(err){
-  console.error('Scanner startup error',err);
-  document.body.style.overflow='';
-  alert('Scanner could not open. Please refresh the page.');
+  const panel=$('scanner');
+  panel.classList.add('open');
+  panel.style.display='block';
+  $('cam').style.display='none';
+  $('scanbody').style.display='none';
+  $('assessment').classList.add('show');
+  document.body.style.overflow='auto';
+  document.documentElement.style.overflow='auto';
+  window.scrollTo(0,Math.max(0,panel.getBoundingClientRect().top+window.scrollY-12));
+ } catch(e) {
+  console.error('Assessment startup error',e);
+  document.body.style.overflow='auto';
+  document.documentElement.style.overflow='auto';
+  alert('Unable to start assessment. Please reload the page.');
  }
 }
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
