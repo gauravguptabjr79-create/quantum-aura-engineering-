@@ -158,7 +158,16 @@ function createPersonalMantra(){
 }
 function openJourney(){const j=$('journey');j.style.display='block';renderJourney();j.scrollIntoView({behavior:'smooth',block:'start'});}
 function journeyStorageKey(){return 'qae_journey_'+profileKey()}
-function journeyState(){try{return JSON.parse(localStorage.getItem(journeyStorageKey()))||{start:new Date().toLocaleDateString('en-CA'),done:[]}}catch(e){return {start:new Date().toLocaleDateString('en-CA'),done:[]}}}
+function journeyState(){
+ let st=null;
+ try{st=JSON.parse(localStorage.getItem(journeyStorageKey()))}catch(e){}
+ if(!st||!st.start||!Array.isArray(st.done)){
+  const d=new Date(),date=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  st={start:date,done:[]};
+  localStorage.setItem(journeyStorageKey(),JSON.stringify(st));
+ }
+ return st;
+}
 function localDay(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
 function renderJourney(){
  const st=journeyState(),start=localDay(new Date(st.start+'T12:00:00')),now=localDay(new Date());
@@ -192,5 +201,38 @@ function fallbackCopy(t,done){
 }
 
 function retake(){answers={};if($('journey'))$('journey').style.display='none';qIndex=0;if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');$('result').classList.remove('show');$('questions').style.display='block';document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
+function resumeSavedJourney(){
+ try{
+  const p=JSON.parse(localStorage.getItem('qae_profile')||'null');
+  if(!p||!p.qaeProfileId){alert('Complete Aura-Coding first to create your journey.');return}
+  openScan();
+  beginAssessment();
+  answers=p;
+  $('questions').style.display='none';
+  $('result').classList.add('show');
+  $('rtitle').textContent=(p.name?p.name+"'s":'Your')+' Personal Intention Profile';
+  $('rfocus').textContent=p.focus||'';
+  $('rmode').textContent=p.mode||'';
+  $('rintent').textContent=p.intention||'';
+  $('rpractice').textContent=p.practice||'';
+  $('rtext').textContent='Continue your personal reflective wellness journey.';
+  $('rpracticeText').textContent='Use your Neo-Mantra, Neo-Yantra and gentle daily practice.';
+  createSigil();
+  createNeoYantra();
+  createPersonalMantra();
+  openJourney();
+ }catch(e){alert('Saved journey could not be opened. Please try your assessment again.')}
+}
+function showResumeAction(){
+ try{
+  const p=JSON.parse(localStorage.getItem('qae_profile')||'null');
+  if(!p||!p.qaeProfileId)return;
+  const b=document.createElement('button');
+  b.className='btn';b.textContent='RESUME MY 21-DAY JOURNEY';
+  b.style.cssText='position:fixed;bottom:18px;right:12px;z-index:9999;max-width:calc(100vw - 24px);font-size:12px;box-shadow:0 8px 28px #000a';
+  b.onclick=resumeSavedJourney;document.body.appendChild(b);
+ }catch(e){}
+}
 setLang(L);
+showResumeAction();
 </script></body></html>
