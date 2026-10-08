@@ -31,6 +31,8 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 
 .mantrapanel{display:none;margin-top:18px;padding:18px;border:1px solid #e9c77b55;border-radius:20px;background:radial-gradient(circle at 50% 20%,#34205f88,#050713 72%);text-align:center}.mantrapanel.show{display:block}.mantracard{margin:15px 0;padding:18px;border:1px solid #63eaff55;border-radius:18px;background:#071020;box-shadow:inset 0 0 38px #63eaff12}.mantrawords{font-size:21px;line-height:1.5;color:#f4e4ad;font-weight:800}.mantrasub{margin-top:9px;color:#b9c2da;font-size:13px}.mantraroutine{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;margin:13px 0}.mantraroutine div{padding:11px;border:1px solid #ffffff18;border-radius:12px;background:#ffffff07}.mantraroutine small{display:block;color:#9da6c2;margin-bottom:3px}
 
+
+.journey{margin-top:20px;padding:16px;border:1px solid #63eaff55;border-radius:18px;background:#070d20}.journey h3{margin:8px 0}.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:15px 0}.day{padding:9px 0;border-radius:9px;border:1px solid #9b78ff66;background:#ffffff08;color:#e5eaff;font-weight:700;font-size:12px}.day.done{background:#164b55;border-color:#63eaff;color:white}.day.today{outline:2px solid #e9c77b}.journeybar{height:10px;border-radius:20px;background:#ffffff22;overflow:hidden}.journeybar>div{height:100%;width:0;background:linear-gradient(90deg,#63eaff,#a58bff);transition:width .25s}.journeyinfo{font-size:13px;color:#c2c9dd;margin:12px 0}.journeyactions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.journeyactions button{font-size:12px}.journeynote{font-size:11px;color:#a9b1cc;margin-top:12px}
 </style></head><body>
 <nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">SCAN YOUR AURA</button></nav>
 <main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">SCAN YOUR AURA</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
@@ -72,6 +74,7 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
     <button class="btn" onclick="copyPersonalMantra(this)">COPY NEO-MANTRA</button>
     <button class="btn ghost" onclick="closeScan()">CLOSE</button>
   </div>
+  <div class="journey" id="journey"><div class="eyebrow">21-DAY INTEGRATION™</div><h3>Your Daily Practice</h3><div id="journeyProfile" class="journeyinfo"></div><div class="journeybar"><div id="journeyFill"></div></div><div class="journeyinfo" id="journeyCount"></div><div class="daygrid" id="journeyDays"></div><div class="journeyinfo" id="journeyToday"></div><div class="journeyactions"><button class="btn" onclick="checkinToday()">COMPLETE TODAY’S PRACTICE</button><button class="btn ghost" onclick="copyPersonalMantra(this)">COPY NEO-MANTRA</button></div><p class="journeynote">Daily check-ins are saved only in this browser. Clearing browser data or changing devices may remove your progress.</p></div>
 </div>
 
 <script>
@@ -89,7 +92,7 @@ function pick(k,v,e){answers[k]=v;e.parentElement.querySelectorAll('.opt').forEa
 function makeResult(){answers.name=$('qname').value.trim();answers.progress=$('qprogress').value.trim();localStorage.setItem('qae_profile',JSON.stringify(answers));$('questions').style.display='none';$('result').classList.add('show');$('rtitle').textContent=(answers.name?answers.name+"'s":"Your")+' Personal Intention Profile';$('rfocus').textContent=answers.focus||'';$('rmode').textContent=answers.mode||'';$('rintent').textContent=answers.intention||'';$('rpractice').textContent=answers.practice||'';$('rtext').textContent='Your reflection points toward '+answers.focus+'. With '+answers.intention+' as your chosen intention, focus on a small repeatable practice rather than an instant result.'+(answers.progress?' Your marker of progress: “'+answers.progress+'”':'');let p={Meditation:'Sit quietly, breathe naturally for 2 minutes, then hold your intention in mind for 5 minutes.',Mantra:'Choose a short meaningful mantra or affirmation and repeat it slowly for 5–10 minutes.',Breathwork:'Use gentle slow breathing for 5 minutes, then spend 2 minutes reflecting on your intention.',Journaling:'Write one page about your intention, one obstacle, and one small action for today.',New:'Begin with 3 minutes of slow breathing and 3 minutes of quiet reflection on your intention.'};$('rpracticeText').textContent=p[answers.practice]||p.New}
 
 function hashText(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function createSigil(){
+function createSigil(){profileKey();
  const seed=[answers.focus,answers.mode,answers.intention,answers.practice,answers.name].join('|'),n=hashText(seed),cx=160,cy=160;
  const pts=[];for(let i=0;i<7;i++){let a=((n>>(i*3%24))%360+i*51)*Math.PI/180,r=55+((n>>(i*4%20))%65);pts.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}
  let path='M '+pts.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join(' L ')+' Z';
@@ -126,28 +129,59 @@ function downloadNeoYantra(){
  const svg=$('neosvg');if(!svg)return;const data=new XMLSerializer().serializeToString(svg),blob=new Blob([data],{type:'image/svg+xml'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='quantum-aura-personal-neo-yantra.svg';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)
 }
 
+function profileKey(){
+ if(!answers.qaeProfileId){
+  let bytes=new Uint8Array(12);
+  if(window.crypto&&crypto.getRandomValues)crypto.getRandomValues(bytes);else for(let i=0;i<bytes.length;i++)bytes[i]=Math.floor(Math.random()*256);
+  answers.qaeProfileId=Array.from(bytes,x=>x.toString(16).padStart(2,'0')).join('');
+ }
+ return answers.qaeProfileId;
+}
 function createPersonalMantra(){
- const panel=$('mantrapanel'), neo=$('neopanel');
- if(!panel||!neo){alert('Neo-Mantra panel could not load. Please refresh the page.');return}
- if(panel.parentElement!==neo) neo.appendChild(panel);
- const intention=answers.intention||'Clarity', mode=answers.mode||'Exploring', focus=answers.focus||'Personal Growth';
- const neoMantras={
-  Clarity:{dev:'ॐ ऐं प्रकाशाय नमः॥',roman:'Om Aim Prakashaya Namah',meaning:'Inner clarity, awareness and a clear next step.'},
-  Grounding:{dev:'ॐ ह्रीं स्थिराय नमः॥',roman:'Om Hreem Sthiraya Namah',meaning:'Steadiness, presence and grounded attention.'},
-  Confidence:{dev:'ॐ ह्रीं आत्मबलाय नमः॥',roman:'Om Hreem Atmabalaya Namah',meaning:'Self-trust, courage and constructive action.'},
-  Connection:{dev:'ॐ ह्रीं सौहार्दाय नमः॥',roman:'Om Hreem Sauhardaya Namah',meaning:'Openness, harmony and respectful connection.'},
-  Consistency:{dev:'ॐ ह्रीं संकल्पाय नमः॥',roman:'Om Hreem Sankalpaya Namah',meaning:'Steady intention and consistent daily practice.'},
-  Growth:{dev:'ॐ ऐं विकासाय नमः॥',roman:'Om Aim Vikasaya Namah',meaning:'Learning, reflection and gradual personal growth.'}
- };
- const m=neoMantras[intention]||neoMantras.Clarity;
- $('mantratitle').textContent=(answers.name?answers.name+"'s":"Your")+' Personal Neo-Mantra™';
- $('mantrawords').innerHTML='<span style="display:block;font-size:25px;line-height:1.55">'+m.dev+'</span><span style="display:block;margin-top:9px;font-size:15px;color:#d7def3;font-weight:600">'+m.roman+'</span>';
- $('mantrameaning').textContent='Practice focus: '+m.meaning;
+ const panel=$('mantrapanel'),neo=$('neopanel');
+ if(!panel||!neo){alert('Please refresh the page.');return}
+ if(panel.parentElement!==neo)neo.appendChild(panel);
+ const intention=answers.intention||'Clarity',focus=answers.focus||'Personal Growth';
+ const bases={Clarity:['प्रकाशाय','Prakashaya','inner clarity'],Grounding:['स्थिराय','Sthiraya','grounded attention'],Confidence:['आत्मबलाय','Atmabalaya','self-trust'],Connection:['सौहार्दाय','Sauhardaya','respectful connection'],Consistency:['संकल्पाय','Sankalpaya','daily consistency'],Growth:['विकासाय','Vikasaya','personal growth']};
+ const b=bases[intention]||bases.Clarity;
+ const prefixes=[['ऐं','Aim'],['ह्रीं','Hreem'],['श्रीं','Shreem'],['क्लीं','Kleem']];
+ const phrases=[['शान्तिः','Shantih'],['दीप्तिः','Diptih'],['स्मृतिः','Smritih'],['धृतिः','Dhritih'],['मैत्री','Maitri'],['प्रज्ञा','Prajna'],['सिद्धिः','Siddhih'],['मङ्गलम्','Mangalam']];
+ const seed=hashText(profileKey()+'|'+[answers.name,intention,answers.mode,focus,answers.practice,answers.progress].join('|'));
+ const x=prefixes[seed%prefixes.length],y=phrases[Math.floor(seed/4)%phrases.length];
+ const dev='ॐ '+x[0]+' '+b[0]+' नमः। '+y[0]+'॥';
+ const roman='Om '+x[1]+' '+b[1]+' Namah. '+y[1]+'.';
+ $('mantratitle').textContent=(answers.name?answers.name+"'s":'Your')+' Personal Neo-Mantra™';
+ $('mantrawords').replaceChildren();
+ const line=document.createElement('span');line.style.cssText='display:block;font-size:24px;line-height:1.6';line.textContent=dev;
+ const translit=document.createElement('span');translit.style.cssText='display:block;margin-top:9px;font-size:15px;color:#d7def3';translit.textContent=roman;
+ $('mantrawords').append(line,translit);
+ $('mantrameaning').textContent='Practice focus: '+b[2]+'. This is a newly composed Neo-Mantra, not a sourced traditional verse.';
  $('mantrafocus').textContent=intention+' • '+focus;
- $('mantratime').textContent=answers.practice==='Mantra'?'Repeat slowly for 5–10 minutes':'3 slow breaths + 7 mindful repetitions';
- $('mantrapanel').classList.add('show');
- $('mantrapanel').scrollIntoView({behavior:'smooth',block:'start'});
- localStorage.setItem('qae_personal_neo_mantra',JSON.stringify({dev:m.dev,roman:m.roman,meaning:m.meaning,intention,mode,focus,practice:answers.practice||'',name:answers.name||''}));
+ $('mantratime').textContent='3 slow breaths + 7 mindful repetitions';
+ panel.classList.add('show');
+ localStorage.setItem('qae_personal_neo_mantra',JSON.stringify({dev,roman,intention,profileId:profileKey()}));
+ renderJourney();panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function journeyStorageKey(){return 'qae_journey_'+profileKey()}
+function journeyState(){try{return JSON.parse(localStorage.getItem(journeyStorageKey()))||{start:new Date().toLocaleDateString('en-CA'),done:[]}}catch(e){return {start:new Date().toLocaleDateString('en-CA'),done:[]}}}
+function localDay(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function renderJourney(){
+ const st=journeyState(),start=localDay(new Date(st.start+'T12:00:00')),now=localDay(new Date());
+ const today=Math.floor((now-start)/86400000)+1,completed=st.done.length;
+ $('journeyProfile').textContent=(answers.name||'Your')+' • '+(answers.intention||'Clarity')+' • Profile '+profileKey().slice(0,8).toUpperCase();
+ $('journeyFill').style.width=Math.round(completed/21*100)+'%';
+ $('journeyCount').textContent=completed+'/21 days completed • '+Math.round(completed/21*100)+'%';
+ $('journeyDays').replaceChildren();
+ for(let i=1;i<=21;i++){
+  const btn=document.createElement('button');btn.type='button';btn.className='day'+(st.done.includes(i)?' done':'')+(i===today?' today':'');btn.textContent=i;btn.title='Day '+i+(st.done.includes(i)?' completed':'');btn.disabled=true;$('journeyDays').append(btn);
+ }
+ $('journeyToday').textContent=today<1?'Your journey has not started':today>21?'Your 21-day window has ended':st.done.includes(today)?'Day '+today+' completed ✓':'Day '+today+': read your Neo-Mantra, breathe slowly and practice for 5–10 minutes.';
+}
+function checkinToday(){
+ const st=journeyState(),start=localDay(new Date(st.start+'T12:00:00')),today=Math.floor((localDay(new Date())-start)/86400000)+1;
+ if(today<1||today>21){alert('The 21-day window is outside today.');return}
+ if(!st.done.includes(today)){st.done.push(today);localStorage.setItem(journeyStorageKey(),JSON.stringify(st))}
+ renderJourney();
 }
 function copyPersonalMantra(btn){
  const el=$('mantrawords');if(!el)return;
