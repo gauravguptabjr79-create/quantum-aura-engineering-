@@ -39,6 +39,16 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 #scanner.open .scanline{animation-duration:5s!important}
 @media(max-width:700px){#scanner{padding:8px!important}#scanner.open .scanbox{width:100%!important;min-height:300px}.camera{max-height:55dvh}body:has(#scanner.open) .aura,body:has(#scanner.open) .ring{animation-play-state:paused!important}}
 @media(prefers-reduced-motion:reduce){#scanner *{animation:none!important;transition:none!important}}
+</style><style id="qae-mobile-stable-scan">
+/* Stable in-document scanner: no fixed overlay, backdrop filter or scroll lock. */
+#scanner,#scanner.open{position:relative!important;inset:auto!important;z-index:1!important;width:100%!important;min-height:0!important;max-height:none!important;overflow:visible!important;overscroll-behavior:auto!important;-webkit-overflow-scrolling:auto!important;visibility:visible!important;opacity:1!important;background:#050817!important;padding:16px 8px 30px!important;contain:none!important}
+#scanner{display:none!important}#scanner.open{display:block!important}
+#scanner .scanbox{position:relative!important;display:block!important;width:min(100%,620px)!important;max-width:620px!important;max-height:none!important;overflow:visible!important;margin:0 auto!important;transform:none!important;animation:none!important;filter:none!important;backdrop-filter:none!important}
+#scanner .camera{height:min(60vh,470px)!important;max-height:470px!important;min-height:230px!important;aspect-ratio:auto!important;transform:none!important}
+#scanner .oval{box-shadow:none!important}
+#scanner .scanline{box-shadow:none!important}
+body:has(#scanner.open) .aura,body:has(#scanner.open) .ring,body:has(#scanner.open) .diamond,body:has(#scanner.open) .core{animation-play-state:paused!important}
+@media(max-width:700px){#scanner .camera{height:min(52vh,390px)!important;min-height:230px!important}#scanner .scanbox{border-radius:14px!important}}
 </style></head><body>
 <nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">SCAN YOUR AURA</button></nav>
 <main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">SCAN YOUR AURA</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
@@ -99,26 +109,17 @@ function openScan(){
   overlay.style.display='block';
   overlay.style.visibility='visible';
   overlay.style.opacity='1';
-  overlay.scrollTop=0;
-  // Do not lock the page before confirming the scanner is visible.
-  requestAnimationFrame(()=>{
-   if(!overlay.classList.contains('open'))return;
-   const box=overlay.querySelector('.scanbox');
-   if(!box||box.getBoundingClientRect().height===0){
-    overlay.classList.remove('open');overlay.style.display='none';
-    document.body.style.overflow='';
-    alert('Scanner could not open. Please refresh and try again.');
-   }
-  });
- }catch(err){
-  console.error('Scanner startup failed',err);
-  overlay.classList.remove('open');overlay.style.display='none';
   document.body.style.overflow='';
-  alert('Scanner could not start. Please refresh and try again.');
+  document.documentElement.style.overflow='';
+  overlay.scrollIntoView({behavior:'instant',block:'start'});
+ }catch(err){
+  console.error('Scanner startup error',err);
+  document.body.style.overflow='';
+  alert('Scanner could not open. Please refresh the page.');
  }
 }
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
-function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');$('scanner').style.display='none';document.body.style.overflow='';$('cam').classList.remove('scanning')}
+function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');$('scanner').style.display='none';document.body.style.overflow='';document.documentElement.style.overflow='';$('cam').classList.remove('scanning');window.scrollTo({top:0,behavior:'instant'})}
 async function cameraOn(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});$('video').srcObject=stream;$('ph').style.display='none';$('allow').style.display='none';$('start').style.display='inline-block';$('status').textContent='Position your face inside the oval guide.'}catch(e){$('status').textContent='Allow camera permission in Chrome. Camera works best on the HTTPS live site.'}}
 function scanNow(){if(!stream){cameraOn();return}let p=0;$('bar').style.width='0';$('done').style.display='none';$('cam').classList.add('scanning');$('start').disabled=true;clearInterval(timer);timer=setInterval(()=>{p+=5;$('bar').style.width=p+'%';if(p>=100){clearInterval(timer);$('cam').classList.remove('scanning');$('start').disabled=false;$('done').style.display='block';$('status').textContent='Scan experience complete.'}},250)}
 function beginAssessment(){stopCam();$('cam').style.display='none';$('scanbody').style.display='none';$('assessment').classList.add('show')}
