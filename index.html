@@ -81,7 +81,7 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 <script>
 let L=localStorage.getItem('qae_lang')||'en',stream=null,timer=null,answers={},qIndex=0;
 const $=id=>document.getElementById(id);
-function setLang(l){L=l;localStorage.setItem('qae_lang',l);$('enBtn').classList.toggle('on',l==='en');$('hiBtn').classList.toggle('on',l==='hi')}
+function setLang(l){L=l;localStorage.setItem('qae_lang',l);$('enBtn').classList.toggle('on',l==='en');$('hiBtn').classList.toggle('on',l==='hi');applyLanguage()}
 function resetFlow(){$('cam').style.display='';$('scanbody').style.display='block';$('assessment').classList.remove('show');$('questions').style.display='block';$('result').classList.remove('show');if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');if($('mantrapanel'))$('mantrapanel').classList.remove('show');$('done').style.display='none';$('allow').style.display='inline-block';$('start').style.display='none';$('start').disabled=false;$('ph').style.display='grid';$('bar').style.width='0';$('status').textContent='Allow front-camera access to begin.';answers={};qIndex=0;document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
 function openScan(){resetFlow();$('scanner').classList.add('open');document.body.style.overflow='hidden'}
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
@@ -233,6 +233,155 @@ function showResumeAction(){
   b.onclick=resumeSavedJourney;document.body.appendChild(b);
  }catch(e){}
 }
+
+// Bilingual content is translated in place, including newly generated profile content.
+const translations={
+'Method':'Method','Services':'Services','FAQ':'Sawaal-Jawaab',
+'SCAN YOUR AURA':'APNI AURA JOURNEY SHURU KAREIN',
+'SPIRITUAL WELLNESS • INTENTIONAL DESIGN':'SPIRITUAL WELLNESS • APNI INTENTION',
+'Your Energy. Your Intention. Your Path.':'Aapki Energy. Aapka Sankalp. Aapka Raasta.',
+'A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.':'Self-reflection, mindful practice, personal symbols aur 21 din ki journey ka ek modern wellness experience.',
+'EXPLORE THE METHOD':'METHOD DEKHEIN','THE CORE SYSTEM':'HAMARA CORE SYSTEM',
+'Three layers. One personal intention.':'Teen layers. Ek personal sankalp.',
+'A structured journey from reflection to a repeatable personal practice.':'Self-reflection se roz ki practice tak ek structured journey.',
+'A guided self-reflection profile around your current focus, patterns, priorities and chosen intention.':'Aapke focus, priorities aur intention par based guided self-reflection profile.',
+'Breathwork, meditation, visualization, mantra and intention-setting organised into a personal practice.':'Breathwork, meditation, visualization aur mantra ko apni daily practice mein jodiye.',
+'A personalised sacred-geometry-inspired artwork designed as your visual intention anchor.':'Aapke sankalp par based ek personal sacred-geometry inspired artwork.',
+'YOUR JOURNEY':'AAPKI JOURNEY','ASSESS → REALIGN → CREATE → PRACTICE':'SAMJHEIN → REALIGN → BANAYEIN → PRACTICE',
+'Understand your focus':'Apna focus samjhein','Begin with the Face Aura Experience and structured assessment.':'Face Aura Experience aur assessment se shuru karein.',
+'Choose one intention':'Ek sankalp chunein','Turn your answers into a clear Aura-Coding™ profile.':'Apne answers se Aura-Coding™ profile banayein.',
+'Create your symbol':'Apna symbol banayein','Build a Personal Sigil™ and Neo-Yantra™ around your intention.':'Apne sankalp ke liye Personal Sigil™ aur Neo-Yantra™ banayein.',
+'Integrate for 21 days':'21 din practice karein','Use a simple daily routine to keep your intention present.':'Roz ki simple routine se apne sankalp ko yaad rakhein.',
+'PERSONAL SYMBOLISM':'PERSONAL SYMBOLISM','Your Personal Sigil™ becomes part of your Neo-Yantra™.':'Aapka Personal Sigil™ aapke Neo-Yantra™ ka hissa banta hai.',
+'Your chosen intention guides a unique artistic symbol and sacred-geometry-inspired composition.':'Aapka sankalp ek personal artistic symbol aur Neo-Yantra™ design ko guide karta hai.',
+'BEGIN MY JOURNEY':'MERI JOURNEY SHURU KAREIN','Choose how deeply you want to explore.':'Aap kitni gehraai se explore karna chahte hain?',
+'Aura & Life Assessment':'Aura aur Life Assessment','Structured reflection and personal intention profile.':'Guided reflection aur personal intention profile.',
+'A symbolic mark designed around your selected intention.':'Aapke sankalp ke hisaab se bana personal symbol.',
+'Personal sacred-geometry-inspired digital artwork.':'Personal sacred-geometry inspired digital artwork.',
+'1-to-1 Quantum Aura Session':'1-to-1 Quantum Aura Session','A guided personal wellness and intention-setting session.':'Personal wellness aur intention-setting ka guided session.',
+'Turn intention into a daily practice.':'Apne sankalp ko daily practice banayein.',
+'Combine your intention, mantra, breathwork or meditation and Neo-Yantra™ as a visual anchor.':'Sankalp, mantra, breathwork ya meditation ko Neo-Yantra™ ke saath jodiye.',
+'Clear answers before you begin.':'Shuru karne se pehle apne answers clear rakhein.',
+'What does “Scan Your Aura” mean here?':'Yahan “Scan Your Aura” ka kya matlab hai?',
+'It starts an immersive camera experience followed by structured self-reflection. The camera does not scientifically measure an invisible aura.':'Camera ek visual experience deta hai, phir self-reflection assessment hota hai. Camera scientifically aura measure nahi karta.',
+'What is a Neo-Yantra™?':'Neo-Yantra™ kya hai?',
+'Our brand term for personalised sacred-geometry-inspired digital artwork created around a chosen intention and Personal Sigil™.':'Aapke sankalp aur Personal Sigil™ se bana sacred-geometry inspired digital artwork.',
+'Is this medical or psychological treatment?':'Kya yeh medical ya psychological treatment hai?',
+'No. It is a spiritual-wellness and reflective practice and is not a diagnosis, treatment or substitute for qualified healthcare.':'Nahi. Yeh spiritual wellness aur reflection ke liye hai, medical diagnosis ya treatment ka replacement nahi.',
+'BEGIN YOUR PERSONAL JOURNEY':'APNI PERSONAL JOURNEY SHURU KAREIN',
+'Start with your Face Aura Experience.':'Face Aura Experience se shuru karein.',
+'Then move into your Aura-Coding™ assessment, Personal Sigil™ and Neo-Yantra™ journey.':'Phir Aura-Coding™ assessment, Personal Sigil™ aur Neo-Yantra™ explore karein.',
+'For spiritual wellness and self-reflection only. Not medical, psychological or scientific diagnosis or treatment.':'Sirf spiritual wellness aur self-reflection ke liye. Medical ya scientific diagnosis nahi.',
+'Face Aura Scan':'Face Aura Scan','Camera is not active yet':'Camera abhi on nahi hai',
+'Allow front-camera access to begin.':'Shuru karne ke liye front-camera permission dein.',
+'This visual camera experience does not scientifically measure an invisible aura. Your personalised profile is based on your self-reflection answers.':'Camera aura scientifically measure nahi karta. Aapki profile aapke diye gaye answers par based hai.',
+'ALLOW CAMERA':'CAMERA ALLOW KAREIN','START VISUAL SCAN':'VISUAL SCAN SHURU KAREIN',
+'Visual scan complete.':'Visual scan complete ho gaya.',
+'Continue to your Aura-Coding™ self-reflection assessment.':'Ab Aura-Coding™ self-reflection assessment karein.',
+'CONTINUE TO ASSESSMENT':'ASSESSMENT SHURU KAREIN',
+'What brings you here today?':'Aaj aap yahan kis liye aaye hain?',
+'Career, business or purpose':'Career, business ya life purpose',
+'Relationships & connection':'Rishte aur connection',
+'Peace, grounding & emotional balance':'Shanti, grounding aur emotional balance',
+'Confidence & personal growth':'Confidence aur personal growth',
+'Spiritual practice & inner exploration':'Spiritual practice aur self-exploration',
+'How does life feel at the moment?':'Abhi life kaisi lag rahi hai?',
+'I feel stuck or unclear':'Main stuck ya confused feel karta/karti hoon',
+'I feel overloaded and need grounding':'Mujhe pressure hai aur grounding chahiye',
+'I am moving through a transition':'Meri life mein badlav chal raha hai',
+'I feel stable and want consistency':'Main stable hoon aur consistency chahta/chahti hoon',
+'I am curious and exploring':'Main explore kar raha/rahi hoon',
+'Which practice feels natural to you?':'Kaunsi practice aapko natural lagti hai?',
+'Meditation or quiet reflection':'Meditation ya shant reflection',
+'Mantra or prayer':'Mantra ya prarthana',
+'Breathwork':'Saans ki practice',
+'Journaling or writing':'Journal ya likhna',
+'I am new to personal/spiritual practice':'Main spiritual practice mein naya/nayi hoon',
+'Choose your intention.':'Apna sankalp chunein.',
+'Clarity':'Clarity (saaf soch)','Grounding':'Grounding (sthirta)',
+'Confidence':'Confidence (aatmavishwas)','Connection':'Connection (rishton ka judav)',
+'Consistency':'Consistency (niyamit practice)','Growth':'Growth (vikas)',
+'Make it personal.':'Apni details dein.',
+'Your answers stay in this browser in this preview.':'Aapke answers is browser mein save hote hain.',
+'CREATE MY PROFILE':'MERI PROFILE BANAYEIN',
+'YOUR AURA-CODING™ PREVIEW':'AAPKI AURA-CODING™ PROFILE',
+'FOCUS AREA':'FOCUS AREA','CURRENT MODE':'CURRENT MODE',
+'CORE INTENTION':'AAPKA SANKALP','PRACTICE ANCHOR':'DAILY PRACTICE',
+'OPEN MY 21-DAY DASHBOARD':'MERA 21-DAY DASHBOARD KHOLEN',
+'Your Daily Practice':'Aapki Daily Practice',
+'COMPLETE TODAY’S PRACTICE':'AAJ KI PRACTICE COMPLETE KAREIN',
+'COPY NEO-MANTRA':'NEO-MANTRA COPY KAREIN',
+'REBUILD NEO-MANTRA':'NEO-MANTRA DOBARA BANAYEIN',
+'CLOSE':'BAND KAREIN','RESUME MY 21-DAY JOURNEY':'MERI 21-DAY JOURNEY KHOLEN',
+'DAILY PRACTICE':'DAILY PRACTICE','21-DAY FOCUS':'21-DAY FOCUS',
+'5–10 minutes':'5–10 minute',
+'YOUR QUANTUM AURA PASSPORT™':'AAPKA QUANTUM AURA PASSPORT™',
+'YOUR SAVED PERSONAL JOURNEY':'AAPKI SAVED PERSONAL JOURNEY',
+'OPEN 21-DAY JOURNEY':'21-DAY JOURNEY KHOLEN',
+'DOWNLOAD PASSPORT BACKUP':'PASSPORT BACKUP DOWNLOAD KAREIN',
+'NO PROFILE YET':'ABHI PROFILE NAHI BANI',
+'Complete your assessment to create a personal passport.':'Apna assessment complete karke personal passport banayein.',
+'COMPLETED DAYS':'COMPLETE HUE DIN','PERSONAL PROFILE':'PERSONAL PROFILE',
+'YOUR NEO-MANTRA':'AAPKA NEO-MANTRA',
+'Your Personal Neo-Mantra™ is a personalized spiritual-wellness practice created for this experience. It is not presented as a scriptural mantra, medical treatment, or guarantee of a specific outcome.':'Yeh personal spiritual-wellness mantra hai, kisi shastra ka pramanit mantra, medical treatment ya guaranteed result nahi.'
+};
+const englishNodes=new WeakMap();
+let translating=false;
+function applyLanguage(){
+ if(translating)return;
+ translating=true;
+ try{
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  for(const node of nodes){
+   if(node.parentElement?.closest('script,style,svg,textarea'))continue;
+   const current=node.textContent,trim=current.trim();if(!trim)continue;
+   let english=englishNodes.get(node);
+   if(english===undefined){englishNodes.set(node,current)}
+   else{
+    const key=english.trim(),translated=translations[key];
+    const translatedFull=translated?english.replace(key,translated):english;
+    if(current!==english && current!==translatedFull)englishNodes.set(node,current);
+   }
+   const base=englishNodes.get(node),key=base.trim(),translation=translations[key];
+   if(L==='hi'&&translation)node.textContent=base.replace(key,translation);
+   else if(L==='en'&&node.textContent!==base)node.textContent=base;
+  }
+  document.documentElement.lang=L==='hi'?'hi-Latn':'en';
+ }finally{translating=false}
+}
+const languageObserver=new MutationObserver(()=>{if(!translating)applyLanguage()});
+languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
+
+function openPassport(){
+ let p=null;try{p=JSON.parse(localStorage.getItem('qae_profile')||'null')}catch(e){}
+ const modal=$('passportOverlay'),body=$('passportContent');body.replaceChildren();
+ if(!p||!p.qaeProfileId){body.innerHTML='<h3>NO PROFILE YET</h3><p>Complete your assessment to create a personal passport.</p>'}
+ else{
+  let state={done:[]};try{state=JSON.parse(localStorage.getItem('qae_journey_'+p.qaeProfileId))||state}catch(e){}
+  const days=Array.isArray(state.done)?state.done.length:0;
+  const mantra=(()=>{try{const m=JSON.parse(localStorage.getItem('qae_personal_neo_mantra')||'null');return m?.profileId===p.qaeProfileId?m.dev:''}catch(e){return ''}})();
+  const heading=document.createElement('h3');heading.textContent=p.name||'PERSONAL PROFILE';body.append(heading);
+  const info=document.createElement('p');info.textContent=[p.focus,p.intention,p.practice].filter(Boolean).join(' • ');body.append(info);
+  const count=document.createElement('div');count.style.cssText='font-size:30px;color:#63eaff;font-weight:800;margin:16px 0';count.textContent=days+'/21 COMPLETED DAYS';body.append(count);
+  const bar=document.createElement('div');bar.style.cssText='height:8px;border-radius:9px;background:#ffffff25;overflow:hidden';bar.innerHTML='<div style="height:100%;width:'+Math.min(100,Math.round(days/21*100))+'%;background:#63eaff"></div>';body.append(bar);
+  const m=document.createElement('p');m.style.cssText='font-size:23px;color:#e9c77b;margin-top:22px';m.textContent=mantra||'Your Neo-Mantra is available inside your journey';body.append(m);
+  const resume=document.createElement('button');resume.className='btn';resume.textContent='OPEN 21-DAY JOURNEY';resume.onclick=()=>{modal.style.display='none';resumeSavedJourney()};body.append(resume);
+  const backup=document.createElement('button');backup.className='btn ghost';backup.style.marginLeft='8px';backup.textContent='DOWNLOAD PASSPORT BACKUP';
+  backup.onclick=()=>{const data={exportedAt:new Date().toISOString(),profile:p,journey:state,mantra:mantra||null};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='quantum-aura-passport-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};body.append(backup);
+ }
+ modal.style.display='flex';applyLanguage();
+}
+function closePassport(){ $('passportOverlay').style.display='none' }
+function addPassportUI(){
+ const overlay=document.createElement('div');overlay.id='passportOverlay';overlay.style.cssText='display:none;position:fixed;inset:0;z-index:10050;background:#030817e8;align-items:center;justify-content:center;padding:16px;overflow:auto';
+ const panel=document.createElement('div');panel.style.cssText='width:min(580px,100%);max-height:90vh;overflow:auto;background:#10162f;border:1px solid #63eaff66;border-radius:24px;padding:24px;color:#f5f7ff';
+ panel.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h2 style="font-size:19px">YOUR QUANTUM AURA PASSPORT™</h2><button class="btn ghost" onclick="closePassport()">×</button></div><p>YOUR SAVED PERSONAL JOURNEY</p><div id="passportContent"></div><p style="font-size:12px;opacity:.7;margin-top:20px">Stored on this browser only. Backup contains personal answers; keep it private.</p>';
+ overlay.append(panel);overlay.addEventListener('click',e=>{if(e.target===overlay)closePassport()});document.body.append(overlay);
+ const b=document.createElement('button');b.className='btn';b.textContent='MY AURA PASSPORT™';b.style.cssText='position:fixed;bottom:72px;right:12px;z-index:9998;font-size:12px;box-shadow:0 8px 28px #000a';b.onclick=openPassport;document.body.append(b);
+}
+
+addPassportUI();
 setLang(L);
 showResumeAction();
 </script></body></html>
