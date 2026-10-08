@@ -111,7 +111,7 @@ function openScan(){
   overlay.style.opacity='1';
   document.body.style.overflow='';
   document.documentElement.style.overflow='';
-  overlay.scrollIntoView({behavior:'instant',block:'start'});
+  overlay.scrollIntoView({behavior:'auto',block:'start'});
  }catch(err){
   console.error('Scanner startup error',err);
   document.body.style.overflow='';
@@ -119,7 +119,7 @@ function openScan(){
  }
 }
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
-function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');$('scanner').style.display='none';document.body.style.overflow='';document.documentElement.style.overflow='';$('cam').classList.remove('scanning');window.scrollTo({top:0,behavior:'instant'})}
+function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');$('scanner').style.display='none';document.body.style.overflow='';document.documentElement.style.overflow='';$('cam').classList.remove('scanning');window.scrollTo(0,0)}
 async function cameraOn(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});$('video').srcObject=stream;$('ph').style.display='none';$('allow').style.display='none';$('start').style.display='inline-block';$('status').textContent='Position your face inside the oval guide.'}catch(e){$('status').textContent='Allow camera permission in Chrome. Camera works best on the HTTPS live site.'}}
 function scanNow(){if(!stream){cameraOn();return}let p=0;$('bar').style.width='0';$('done').style.display='none';$('cam').classList.add('scanning');$('start').disabled=true;clearInterval(timer);timer=setInterval(()=>{p+=5;$('bar').style.width=p+'%';if(p>=100){clearInterval(timer);$('cam').classList.remove('scanning');$('start').disabled=false;$('done').style.display='block';$('status').textContent='Scan experience complete.'}},250)}
 function beginAssessment(){stopCam();$('cam').style.display='none';$('scanbody').style.display='none';$('assessment').classList.add('show')}
@@ -378,14 +378,14 @@ function applyLanguage(){
     if(current!==english && current!==translatedFull)englishNodes.set(node,current);
    }
    const base=englishNodes.get(node),key=base.trim(),translation=translations[key];
-   if(L==='hi'&&translation)node.textContent=base.replace(key,translation);
+   if(L==='hi'&&translation){const next=base.replace(key,translation);if(node.textContent!==next)node.textContent=next;}
    else if(L==='en'&&node.textContent!==base)node.textContent=base;
   }
   document.documentElement.lang=L==='hi'?'hi-Latn':'en';
  }finally{translating=false}
 }
-const languageObserver=new MutationObserver(()=>{if(!translating)applyLanguage()});
-languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
+// Removed recursive MutationObserver: changing translated text triggered repeated full-document translations.
+// Language is applied explicitly on initial load and language selection.
 
 function openPassport(){
  let p=null;try{p=JSON.parse(localStorage.getItem('qae_profile')||'null')}catch(e){}
