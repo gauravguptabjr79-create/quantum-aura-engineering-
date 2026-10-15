@@ -33,39 +33,37 @@ section{padding:80px 0}.head{text-align:center;max-width:760px;margin:0 auto 36p
 
 .journey{margin-top:20px;padding:16px;border:1px solid #63eaff55;border-radius:18px;background:#070d20}.journey h3{margin:8px 0}.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:15px 0}.day{padding:9px 0;border-radius:9px;border:1px solid #9b78ff66;background:#ffffff08;color:#e5eaff;font-weight:700;font-size:12px}.day.done{background:#164b55;border-color:#63eaff;color:white}.day.today{outline:2px solid #e9c77b}.journeybar{height:10px;border-radius:20px;background:#ffffff22;overflow:hidden}.journeybar>div{height:100%;width:0;background:linear-gradient(90deg,#63eaff,#a58bff);transition:width .25s}.journeyinfo{font-size:13px;color:#c2c9dd;margin:12px 0}.journeyactions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.journeyactions button{font-size:12px}.journeynote{font-size:11px;color:#a9b1cc;margin-top:12px}
 
-/* Mobile-safe scanner: prevent expensive full-page effects and guarantee visible overlay */
-#scanner.open{display:block!important;visibility:visible!important;opacity:1!important;position:fixed!important;inset:0!important;z-index:99999!important;overflow-y:auto!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#050817!important}
-#scanner.open .scanbox{display:block!important;position:relative;max-width:650px;margin:0 auto;transform:none!important;animation:none!important}
-#scanner.open .scanline{animation-duration:5s!important}
-@media(max-width:700px){#scanner{padding:8px!important}#scanner.open .scanbox{width:100%!important;min-height:300px}.camera{max-height:55dvh}body:has(#scanner.open) .aura,body:has(#scanner.open) .ring{animation-play-state:paused!important}}
-@media(prefers-reduced-motion:reduce){#scanner *{animation:none!important;transition:none!important}}
-</style><style id="qae-mobile-stable-scan">
-/* Stable in-document scanner: no fixed overlay, backdrop filter or scroll lock. */
-#scanner,#scanner.open{position:relative!important;inset:auto!important;z-index:1!important;width:100%!important;min-height:0!important;max-height:none!important;overflow:visible!important;overscroll-behavior:auto!important;-webkit-overflow-scrolling:auto!important;visibility:visible!important;opacity:1!important;background:#050817!important;padding:16px 8px 30px!important;contain:none!important}
-#scanner{display:none!important}#scanner.open{display:block!important}
-#scanner .scanbox{position:relative!important;display:block!important;width:min(100%,620px)!important;max-width:620px!important;max-height:none!important;overflow:visible!important;margin:0 auto!important;transform:none!important;animation:none!important;filter:none!important;backdrop-filter:none!important}
-#scanner .camera{height:min(60vh,470px)!important;max-height:470px!important;min-height:230px!important;aspect-ratio:auto!important;transform:none!important}
-#scanner .oval{box-shadow:none!important}
-#scanner .scanline{box-shadow:none!important}
-body:has(#scanner.open) .aura,body:has(#scanner.open) .ring,body:has(#scanner.open) .diamond,body:has(#scanner.open) .core{animation-play-state:paused!important}
-@media(max-width:700px){#scanner .camera{height:min(52vh,390px)!important;min-height:230px!important}#scanner .scanbox{border-radius:14px!important}}
-
-/* Low-resource compatibility mode: assessment first, no camera or scanner effects. */
-#scanner.open{position:relative!important;inset:auto!important;display:block!important;overflow:visible!important;z-index:1!important;background:transparent!important;}
+</style>
+<style id="qae-interaction-repair-v1">
+html{scroll-behavior:auto!important}
+.hero{position:relative;isolation:isolate}
+.hero>div:first-child{position:relative;z-index:3}
+.hero .actions{position:relative;z-index:5}
+.hero .actions .btn{position:relative;pointer-events:auto;touch-action:manipulation}
+.aura,.aura *{pointer-events:none!important}
+#scanner{display:none!important;position:relative!important;inset:auto!important;z-index:1!important;width:100%!important;overflow:visible!important;background:#050817!important;padding:12px 8px 30px!important}
+#scanner.open{display:block!important}
+#scanner .scanbox{width:min(100%,620px);margin:12px auto;overflow:visible;transform:none;animation:none}
 #scanner.open .camera,#scanner.open .scanbody{display:none!important}
 #scanner.open .assess{display:block!important}
-#scanner.open .scanbox{max-width:620px!important;margin:16px auto 35px!important;}
-@media(max-width:800px){.aura,.ring,.diamond,.core,.scanline{animation:none!important;filter:none!important}*{scroll-behavior:auto!important}}
-</style></head><body>
-<nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan()">START AURA ASSESSMENT</button></nav>
-<main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan()">START AURA ASSESSMENT</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
+@media(max-width:820px){
+  .aura,.ring,.diamond,.core{animation:none!important;filter:none!important}
+  nav{backdrop-filter:none!important}
+  .hero{display:block!important;padding-top:36px!important}
+  .hero .aura{height:210px!important;opacity:.55}
+  .hero .actions{display:flex!important}
+}
+</style>
+</head><body>
+<nav><div class="brand">QUANTUM AURA</div><div class="links"><a href="#method">Method</a><a href="#yantra">Neo-Yantra</a><a href="#services">Services</a><a href="#faq">FAQ</a></div><div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="hiBtn" onclick="setLang('hi')">Hinglish</button></div><button class="btn navscan" onclick="openScan();return false;" type="button">START AURA ASSESSMENT</button></nav>
+<main class="wrap hero"><div><div class="eyebrow">SPIRITUAL WELLNESS • INTENTIONAL DESIGN</div><h1>QUANTUM<br>AURA<br>ENGINEERING</h1><div class="tag">Your Energy. Your Intention. Your Path.</div><p class="lead">A modern spiritual-wellness framework combining reflective assessment, conscious practice, personalised symbolism and a 21-day integration journey.</p><div class="actions"><button class="btn" onclick="openScan();return false;" type="button">START AURA ASSESSMENT</button><a href="#method" class="btn ghost">EXPLORE THE METHOD</a></div></div><div class="aura"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="diamond"></div><div class="core"></div></div></main>
 <section id="method"><div class="wrap"><div class="head"><div class="eyebrow">THE CORE SYSTEM</div><h2>Three layers. One personal intention.</h2><p class="muted">A structured journey from reflection to a repeatable personal practice.</p></div><div class="cards3"><div class="card"><div class="icon">◉</div><h3>Aura-Coding™</h3><p class="muted">A guided self-reflection profile around your current focus, patterns, priorities and chosen intention.</p></div><div class="card"><div class="icon">✦</div><h3>Quantum Tantra™</h3><p class="muted">Breathwork, meditation, visualization, mantra and intention-setting organised into a personal practice.</p></div><div class="card"><div class="icon">◇</div><h3>Neo-Yantra™</h3><p class="muted">A personalised sacred-geometry-inspired artwork designed as your visual intention anchor.</p></div></div></div></section>
 <section><div class="wrap"><div class="head"><div class="eyebrow">YOUR JOURNEY</div><h2>ASSESS → REALIGN → CREATE → PRACTICE</h2></div><div class="journey"><div class="step"><div class="num">01 • ASSESS</div><h3>Understand your focus</h3><p class="muted">Begin with the Face Aura Experience and structured assessment.</p></div><div class="step"><div class="num">02 • REALIGN</div><h3>Choose one intention</h3><p class="muted">Turn your answers into a clear Aura-Coding™ profile.</p></div><div class="step"><div class="num">03 • CREATE</div><h3>Create your symbol</h3><p class="muted">Build a Personal Sigil™ and Neo-Yantra™ around your intention.</p></div><div class="step"><div class="num">04 • PRACTICE</div><h3>Integrate for 21 days</h3><p class="muted">Use a simple daily routine to keep your intention present.</p></div></div></div></section>
 <section id="yantra"><div class="wrap split"><div class="yantra"><div class="circle"></div><div class="sq"></div><div class="tri"></div><div class="core"></div></div><div><div class="eyebrow">PERSONAL SYMBOLISM</div><h2>Your Personal Sigil™ becomes part of your Neo-Yantra™.</h2><p class="muted">Your chosen intention guides a unique artistic symbol and sacred-geometry-inspired composition.</p><button class="btn" onclick="openScan()">BEGIN MY JOURNEY</button></div></div></section>
 <section id="services"><div class="wrap"><div class="head"><div class="eyebrow">SERVICES</div><h2>Choose how deeply you want to explore.</h2></div><div class="services"><div class="service"><div class="badge">01</div><div><b>Aura & Life Assessment</b><span class="muted">Structured reflection and personal intention profile.</span></div></div><div class="service"><div class="badge">02</div><div><b>Personal Sigil™</b><span class="muted">A symbolic mark designed around your selected intention.</span></div></div><div class="service"><div class="badge">03</div><div><b>Neo-Yantra™</b><span class="muted">Personal sacred-geometry-inspired digital artwork.</span></div></div><div class="service"><div class="badge">04</div><div><b>1-to-1 Quantum Aura Session</b><span class="muted">A guided personal wellness and intention-setting session.</span></div></div></div></div></section>
 <section><div class="wrap integrate"><div><div class="eyebrow">21-DAY INTEGRATION™</div><h2>Turn intention into a daily practice.</h2><p class="muted">Combine your intention, mantra, breathwork or meditation and Neo-Yantra™ as a visual anchor.</p></div><div class="days"><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div></div></div></section>
 <section id="faq"><div class="wrap"><div class="head"><div class="eyebrow">FAQ</div><h2>Clear answers before you begin.</h2></div><div class="faq"><details><summary>What does “Scan Your Aura” mean here?</summary><p class="muted">It starts an immersive camera experience followed by structured self-reflection. The camera does not scientifically measure an invisible aura.</p></details><details><summary>What is a Neo-Yantra™?</summary><p class="muted">Our brand term for personalised sacred-geometry-inspired digital artwork created around a chosen intention and Personal Sigil™.</p></details><details><summary>Is this medical or psychological treatment?</summary><p class="muted">No. It is a spiritual-wellness and reflective practice and is not a diagnosis, treatment or substitute for qualified healthcare.</p></details></div></div></section>
-<section><div class="wrap final"><div class="eyebrow">BEGIN YOUR PERSONAL JOURNEY</div><h2>Start with your Face Aura Experience.</h2><p class="muted">Then move into your Aura-Coding™ assessment, Personal Sigil™ and Neo-Yantra™ journey.</p><button class="btn" onclick="openScan()">START AURA ASSESSMENT</button></div></section>
+<section><div class="wrap final"><div class="eyebrow">BEGIN YOUR PERSONAL JOURNEY</div><h2>Start with your Face Aura Experience.</h2><p class="muted">Then move into your Aura-Coding™ assessment, Personal Sigil™ and Neo-Yantra™ journey.</p><button class="btn" onclick="openScan();return false;" type="button">START AURA ASSESSMENT</button></div></section>
 <footer><div class="wrap"><b>QUANTUM AURA ENGINEERING</b><p>Your Energy. Your Intention. Your Path.</p><p>For spiritual wellness and self-reflection only. Not medical, psychological or scientific diagnosis or treatment.</p></div></footer>
 <div id="scanner"><div class="scanbox"><div class="scanhead"><div><div class="eyebrow">QUANTUM AURA EXPERIENCE</div><b>Face Aura Scan</b></div><button class="x" onclick="closeScan()">×</button></div><div class="camera" id="cam"><video id="video" autoplay playsinline muted></video><div class="ph" id="ph">◎<br>Camera is not active yet</div><div class="oval"></div><div class="scanline"></div></div><div class="scanbody" id="scanbody"><b id="status">Allow front-camera access to begin.</b><div class="progress"><div class="bar" id="bar"></div></div><p class="notice">This visual camera experience does not scientifically measure an invisible aura. Your personalised profile is based on your self-reflection answers.</p><div class="actions"><button class="btn" id="allow" onclick="cameraOn()">ALLOW CAMERA</button><button class="btn ghost" id="start" style="display:none" onclick="scanNow()">START VISUAL SCAN</button></div><div class="done" id="done"><b>Visual scan complete.</b><p class="muted">Continue to your Aura-Coding™ self-reflection assessment.</p><button class="btn" onclick="beginAssessment()">CONTINUE TO ASSESSMENT</button></div></div>
 <div class="assess" id="assessment"><div id="questions">
@@ -74,7 +72,8 @@ body:has(#scanner.open) .aura,body:has(#scanner.open) .ring,body:has(#scanner.op
 <div class="qstep"><div class="eyebrow">AURA-CODING™ • 3/5</div><h3>Which practice feels natural to you?</h3><div class="opts"><button class="opt" onclick="pick('practice','Meditation',this)">Meditation or quiet reflection</button><button class="opt" onclick="pick('practice','Mantra',this)">Mantra or prayer</button><button class="opt" onclick="pick('practice','Breathwork',this)">Breathwork</button><button class="opt" onclick="pick('practice','Journaling',this)">Journaling or writing</button><button class="opt" onclick="pick('practice','New',this)">I am new to personal/spiritual practice</button></div></div>
 <div class="qstep"><div class="eyebrow">AURA-CODING™ • 4/5</div><h3>Choose your intention.</h3><div class="opts"><button class="opt" onclick="pick('intention','Clarity',this)">Clarity</button><button class="opt" onclick="pick('intention','Grounding',this)">Grounding</button><button class="opt" onclick="pick('intention','Confidence',this)">Confidence</button><button class="opt" onclick="pick('intention','Connection',this)">Connection</button><button class="opt" onclick="pick('intention','Consistency',this)">Consistency</button><button class="opt" onclick="pick('intention','Growth',this)">Growth</button></div></div>
 <div class="qstep"><div class="eyebrow">AURA-CODING™ • 5/5</div><h3>Make it personal.</h3><input id="qname" class="field" placeholder="First name (optional)"><textarea id="qprogress" class="field" rows="4" placeholder="What would meaningful progress look like for you? (optional)"></textarea><p class="notice">Your answers stay in this browser in this preview.</p><button class="btn" onclick="makeResult()">CREATE MY PROFILE</button></div></div>
-<div class="result" id="result"><div class="eyebrow">YOUR AURA-CODING™ PREVIEW</div><h3 id="rtitle"></h3><div class="resultgrid"><div class="resultbox"><small>FOCUS AREA</small><b id="rfocus"></b></div><div class="resultbox"><small>CURRENT MODE</small><b id="rmode"></b></div><div class="resultbox"><small>CORE INTENTION</small><b id="rintent"></b></div><div class="resultbox"><small>PRACTICE ANCHOR</small><b id="rpractice"></b></div></div><p id="rtext" class="muted"></p><div class="practice"><b>Suggested 5–10 minute practice</b><p id="rpracticeText"></p></div><p class="notice">This is a reflective spiritual-wellness profile, not a medical, psychological or scientific diagnosis.</p><div class="actions"><button class="btn ghost" onclick="retake()">RETAKE</button><button class="btn" onclick="createSigil()">CREATE MY PERSONAL SIGIL™</button></div>
+<div class="result" id="result"><div class="eyebrow">YOUR AURA-CODING™ PREVIEW</div><h3 id="rtitle"></h3><div class="resultgrid"><div class="resultbox"><small>FOCUS AREA</small><b id="rfocus"></b></div><div class="resultbox"><small>CURRENT MODE</small><b id="rmode"></b></div><div class="resultbox"><small>CORE INTENTION</small><b id="rintent"></b></div><div class="resultbox"><small>PRACTICE ANCHOR</small><b id="rpractice"></b></div></div><p id="rtext" class="muted"></p><div class="practice"><b>Suggested 5–10 minute practice</b><p id="rpracticeText"></p></div><p class="notice">This is a reflective spiritual-wellness profile, not a medical, psychological or scientific diagnosis.</p><div class="actions"><button class="btn ghost" onclick="retake()">RETAKE</button><button class="btn" onclick="showPassportOffer()">UNLOCK FULL AURA PASSPORT — ₹999</button></div>
+<div id="qaePremiumOffer" class="qae-offer" style="display:none;margin:20px 0;padding:23px;border:1px solid #e9c77b88;border-radius:22px;background:linear-gradient(145deg,#15132f,#081626)"><div class="eyebrow">PERSONAL AURA PASSPORT™</div><h3 style="font-size:26px;margin:9px 0">Your full personal journey</h3><p class="muted">Your free assessment is complete. Unlock your personal Sigil™, Neo-Yantra™, Neo-Mantra™, downloadable Passport and 21-Day Integration Dashboard.</p><p style="font-size:32px;color:#e9c77b;font-weight:900;margin:10px 0">₹999 <span style="font-size:13px;color:#b8c0d8">one-time</span></p><button type="button" class="btn" onclick="requestPassportCheckout()">PAY ₹999 — COMING SOON</button><p class="notice" style="margin-top:12px">Payments are not active yet. No charge will be made. Premium access requires verified payment once checkout is launched.</p></div>
 <div class="sigilpanel" id="sigilpanel"><div class="eyebrow">PERSONAL SIGIL™</div><h3 id="sigiltitle">Your Intention Symbol</h3><p class="muted">A deterministic artistic symbol created from your Aura-Coding™ selections.</p><div class="sigilframe" id="sigilframe"></div><div class="sigilmeta"><div><small>INTENTION</small><b id="sigilintent"></b></div><div><small>SYMBOL CODE</small><b id="sigilcode"></b></div></div><p class="sigilnote">This symbol is an artistic intention anchor for reflective/spiritual-wellness practice; it is not a diagnostic or scientifically measured energy signature.</p><div class="actions" style="justify-content:center"><button class="btn ghost" onclick="createSigil()">REGENERATE</button><button class="btn" onclick="downloadSigil()">SAVE SIGIL</button><button class="btn" onclick="createNeoYantra()">CREATE MY NEO-YANTRA™</button></div>
 <div class="neopanel" id="neopanel"><div class="eyebrow">PERSONAL NEO-YANTRA™</div><h3 id="neotitle">Your Personal Intention Artwork</h3><p class="muted">Your Personal Sigil™ placed inside a richer sacred-geometry-inspired composition.</p><div class="neoframe" id="neoframe"></div><div class="neoquote"><small class="muted">21-DAY INTENTION</small><br><b id="neointention"></b></div><p class="sigilnote">Use this artwork as a visual focus during your reflective practice. It is artistic/spiritual-wellness content, not a scientifically measured energy field.</p><div class="neoactions"><button class="btn ghost" onclick="createNeoYantra()">REGENERATE</button><button class="btn" onclick="downloadNeoYantra()">SAVE NEO-YANTRA</button>
     <button class="btn" onclick="createPersonalMantra()">GENERATE MY NEO-MANTRA™</button><button class="btn ghost" onclick="closeScan()">CLOSE</button></div></div></div></div></div></div></div>
@@ -107,36 +106,41 @@ const $=id=>document.getElementById(id);
 function setLang(l){L=l;localStorage.setItem('qae_lang',l);$('enBtn').classList.toggle('on',l==='en');$('hiBtn').classList.toggle('on',l==='hi');applyLanguage()}
 function resetFlow(){$('cam').style.display='';$('scanbody').style.display='block';$('assessment').classList.remove('show');$('questions').style.display='block';$('result').classList.remove('show');if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');if($('mantrapanel'))$('mantrapanel').classList.remove('show');$('done').style.display='none';$('allow').style.display='inline-block';$('start').style.display='none';$('start').disabled=false;$('ph').style.display='grid';$('bar').style.width='0';$('status').textContent='Allow front-camera access to begin.';answers={};qIndex=0;document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
 function openScan(){
- // Safe mode: skip camera, animated scanner and fullscreen overlays entirely.
- try {
+ try{
   stopCam();clearInterval(timer);
   resetFlow();
   const panel=$('scanner');
+  if(!panel)throw new Error('Assessment panel missing');
   panel.classList.add('open');
-  panel.style.display='block';
   $('cam').style.display='none';
   $('scanbody').style.display='none';
   $('assessment').classList.add('show');
-  document.body.style.overflow='auto';
-  document.documentElement.style.overflow='auto';
-  window.scrollTo(0,Math.max(0,panel.getBoundingClientRect().top+window.scrollY-12));
- } catch(e) {
-  console.error('Assessment startup error',e);
-  document.body.style.overflow='auto';
-  document.documentElement.style.overflow='auto';
-  alert('Unable to start assessment. Please reload the page.');
+  document.body.style.overflow='';
+  document.documentElement.style.overflow='';
+  location.hash='scanner';
+ }catch(e){
+  console.error('Assessment error:',e);
+  document.body.style.overflow='';
+  alert('Assessment could not open. Please refresh and try again.');
  }
 }
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
-function closeScan(){stopCam();clearInterval(timer);$('scanner').classList.remove('open');$('scanner').style.display='none';document.body.style.overflow='';document.documentElement.style.overflow='';$('cam').classList.remove('scanning');window.scrollTo(0,0)}
+function closeScan(){
+ stopCam();clearInterval(timer);
+ const panel=$('scanner');
+ if(panel)panel.classList.remove('open');
+ document.body.style.overflow='';
+ document.documentElement.style.overflow='';
+ location.hash='';
+}
 async function cameraOn(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});$('video').srcObject=stream;$('ph').style.display='none';$('allow').style.display='none';$('start').style.display='inline-block';$('status').textContent='Position your face inside the oval guide.'}catch(e){$('status').textContent='Allow camera permission in Chrome. Camera works best on the HTTPS live site.'}}
 function scanNow(){if(!stream){cameraOn();return}let p=0;$('bar').style.width='0';$('done').style.display='none';$('cam').classList.add('scanning');$('start').disabled=true;clearInterval(timer);timer=setInterval(()=>{p+=5;$('bar').style.width=p+'%';if(p>=100){clearInterval(timer);$('cam').classList.remove('scanning');$('start').disabled=false;$('done').style.display='block';$('status').textContent='Scan experience complete.'}},250)}
 function beginAssessment(){stopCam();$('cam').style.display='none';$('scanbody').style.display='none';$('assessment').classList.add('show')}
 function pick(k,v,e){answers[k]=v;e.parentElement.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));e.classList.add('sel');setTimeout(()=>{let q=document.querySelectorAll('.qstep');if(qIndex<q.length-1){q[qIndex].classList.remove('active');qIndex++;q[qIndex].classList.add('active')}},180)}
-function makeResult(){profileKey();answers.name=$('qname').value.trim();answers.progress=$('qprogress').value.trim();localStorage.setItem('qae_profile',JSON.stringify(answers));$('questions').style.display='none';$('result').classList.add('show');$('rtitle').textContent=(answers.name?answers.name+"'s":"Your")+' Personal Intention Profile';$('rfocus').textContent=answers.focus||'';$('rmode').textContent=answers.mode||'';$('rintent').textContent=answers.intention||'';$('rpractice').textContent=answers.practice||'';$('rtext').textContent='Your reflection points toward '+answers.focus+'. With '+answers.intention+' as your chosen intention, focus on a small repeatable practice rather than an instant result.'+(answers.progress?' Your marker of progress: “'+answers.progress+'”':'');let p={Meditation:'Sit quietly, breathe naturally for 2 minutes, then hold your intention in mind for 5 minutes.',Mantra:'Choose a short meaningful mantra or affirmation and repeat it slowly for 5–10 minutes.',Breathwork:'Use gentle slow breathing for 5 minutes, then spend 2 minutes reflecting on your intention.',Journaling:'Write one page about your intention, one obstacle, and one small action for today.',New:'Begin with 3 minutes of slow breathing and 3 minutes of quiet reflection on your intention.'};$('rpracticeText').textContent=p[answers.practice]||p.New}
+function makeResult(){profileKey();answers.name=$('qname').value.trim();answers.progress=$('qprogress').value.trim();localStorage.setItem('qae_profile',JSON.stringify(answers));$('questions').style.display='none';$('result').classList.add('show');$('qaePremiumOffer').style.display='block';$('rtitle').textContent=(answers.name?answers.name+"'s":"Your")+' Personal Intention Profile';$('rfocus').textContent=answers.focus||'';$('rmode').textContent=answers.mode||'';$('rintent').textContent=answers.intention||'';$('rpractice').textContent=answers.practice||'';$('rtext').textContent='Your reflection points toward '+answers.focus+'. With '+answers.intention+' as your chosen intention, focus on a small repeatable practice rather than an instant result.'+(answers.progress?' Your marker of progress: “'+answers.progress+'”':'');let p={Meditation:'Sit quietly, breathe naturally for 2 minutes, then hold your intention in mind for 5 minutes.',Mantra:'Choose a short meaningful mantra or affirmation and repeat it slowly for 5–10 minutes.',Breathwork:'Use gentle slow breathing for 5 minutes, then spend 2 minutes reflecting on your intention.',Journaling:'Write one page about your intention, one obstacle, and one small action for today.',New:'Begin with 3 minutes of slow breathing and 3 minutes of quiet reflection on your intention.'};$('rpracticeText').textContent=p[answers.practice]||p.New}
 
 function hashText(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function createSigil(){
+function createSigil(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  const seed=[answers.focus,answers.mode,answers.intention,answers.practice,answers.name].join('|'),n=hashText(seed),cx=160,cy=160;
  const pts=[];for(let i=0;i<7;i++){let a=((n>>(i*3%24))%360+i*51)*Math.PI/180,r=55+((n>>(i*4%20))%65);pts.push([cx+Math.cos(a)*r,cy+Math.sin(a)*r])}
  let path='M '+pts.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join(' L ')+' Z';
@@ -146,11 +150,11 @@ function createSigil(){
  $('sigilframe').innerHTML='<svg id="sigilsvg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg"><circle cx="160" cy="160" r="146" fill="none" stroke="#e9c77b" opacity=".32"/>'+halo+'<g fill="none" stroke="#63eaff" stroke-width="2" opacity=".88" transform="rotate('+rot+' 160 160)">'+circles+'<path d="'+path+'"/>'+spokes+'<circle cx="160" cy="160" r="8" fill="#e9c77b" stroke="#e9c77b"/></g><circle cx="160" cy="160" r="142" fill="none" stroke="#9b78ff" stroke-width="1" opacity=".55"/></svg>';
  $('sigilintent').textContent=answers.intention||'Intention';$('sigilcode').textContent='QAE-'+n.toString(16).toUpperCase().slice(0,8);$('sigiltitle').textContent=(answers.name?answers.name+"'s":"Your")+' Personal Sigil™';$('sigilpanel').classList.add('show');$('sigilpanel').scrollIntoView({behavior:'smooth',block:'start'});localStorage.setItem('qae_sigil_seed',seed)
 }
-function downloadSigil(){
+function downloadSigil(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  const svg=$('sigilsvg');if(!svg)return;const data=new XMLSerializer().serializeToString(svg),blob=new Blob([data],{type:'image/svg+xml'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='quantum-aura-personal-sigil.svg';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)
 }
 
-function createNeoYantra(){
+function createNeoYantra(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  if(!$('sigilsvg'))createSigil();
  const seed=[answers.focus,answers.mode,answers.intention,answers.practice,answers.name,'neo'].join('|'),n=hashText(seed);
  const petals=8+(n%5)*2, cx=200,cy=200;
@@ -169,12 +173,12 @@ function createNeoYantra(){
  $('neopanel').classList.add('show');$('neopanel').scrollIntoView({behavior:'smooth',block:'start'});
  localStorage.setItem('qae_neo_seed',seed)
 }
-function downloadNeoYantra(){
+function downloadNeoYantra(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  const svg=$('neosvg');if(!svg)return;const data=new XMLSerializer().serializeToString(svg),blob=new Blob([data],{type:'image/svg+xml'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='quantum-aura-personal-neo-yantra.svg';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)
 }
 
 function profileKey(){if(!answers.qaeProfileId){const bytes=new Uint8Array(12);if(window.crypto&&crypto.getRandomValues)crypto.getRandomValues(bytes);else for(let i=0;i<bytes.length;i++)bytes[i]=Math.floor(Math.random()*256);answers.qaeProfileId=Array.from(bytes,x=>x.toString(16).padStart(2,'0')).join('');}return answers.qaeProfileId;}
-function createPersonalMantra(){
+function createPersonalMantra(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  const panel=$('mantrapanel'),neo=$('neopanel');
  if(!panel||!neo){alert('Please refresh the page.');return}
  if(panel.parentElement!==neo)neo.appendChild(panel);
@@ -199,7 +203,7 @@ function createPersonalMantra(){
  localStorage.setItem('qae_personal_neo_mantra',JSON.stringify({dev,roman,intention,profileId:profileKey()}));
  panel.scrollIntoView({behavior:'smooth',block:'start'});
 }
-function openJourney(){const j=$('journey');j.style.display='block';renderJourney();j.scrollIntoView({behavior:'smooth',block:'start'});}
+function openJourney(){if(!qaeVerifiedPremium()){showPassportOffer();return;}const j=$('journey');j.style.display='block';renderJourney();j.scrollIntoView({behavior:'smooth',block:'start'});}
 function journeyStorageKey(){return 'qae_journey_'+profileKey()}
 function journeyState(){
  let st=null;
@@ -212,7 +216,7 @@ function journeyState(){
  return st;
 }
 function localDay(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
-function renderJourney(){
+function renderJourney(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  const st=journeyState(),start=localDay(new Date(st.start+'T12:00:00')),now=localDay(new Date());
  const today=Math.floor((now-start)/86400000)+1,completed=st.done.length;
  $('journeyProfile').textContent=(answers.name||'Your')+' • '+(answers.intention||'Clarity')+' • Profile '+profileKey().slice(0,8).toUpperCase();
@@ -224,7 +228,7 @@ function renderJourney(){
  }
  $('journeyToday').textContent=today<1?'Your journey has not started':today>21?'Your 21-day window has ended':st.done.includes(today)?'Day '+today+' completed ✓':'Day '+today+': read your Neo-Mantra, breathe slowly and practice for 5–10 minutes.';
 }
-function checkinToday(){
+function checkinToday(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  const st=journeyState(),start=localDay(new Date(st.start+'T12:00:00')),today=Math.floor((localDay(new Date())-start)/86400000)+1;
  if(today<1||today>21){alert('The 21-day window is outside today.');return}
  if(!st.done.includes(today)){st.done.push(today);localStorage.setItem(journeyStorageKey(),JSON.stringify(st))}
@@ -244,7 +248,7 @@ function fallbackCopy(t,done){
 }
 
 function retake(){answers={};if($('journey'))$('journey').style.display='none';qIndex=0;if($('sigilpanel'))$('sigilpanel').classList.remove('show');if($('neopanel'))$('neopanel').classList.remove('show');$('result').classList.remove('show');$('questions').style.display='block';document.querySelectorAll('.qstep').forEach((x,i)=>x.classList.toggle('active',i===0));document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'))}
-function resumeSavedJourney(){
+function resumeSavedJourney(){if(!qaeVerifiedPremium()){showPassportOffer();return;}
  try{
   const p=JSON.parse(localStorage.getItem('qae_profile')||'null');
   if(!p||!p.qaeProfileId){alert('Complete Aura-Coding first to create your journey.');return}
@@ -397,6 +401,7 @@ function applyLanguage(){
 // Language is applied explicitly on initial load and language selection.
 
 function openPassport(){
+ if(!qaeVerifiedPremium()){showPassportOffer();return;}
  let p=null;try{p=JSON.parse(localStorage.getItem('qae_profile')||'null')}catch(e){}
  const modal=$('passportOverlay'),body=$('passportContent');body.replaceChildren();
  if(!p||!p.qaeProfileId){body.innerHTML='<h3>NO PROFILE YET</h3><p>Complete your assessment to create a personal passport.</p>'}
@@ -421,10 +426,28 @@ function addPassportUI(){
  const panel=document.createElement('div');panel.style.cssText='width:min(580px,100%);max-height:90vh;overflow:auto;background:#10162f;border:1px solid #63eaff66;border-radius:24px;padding:24px;color:#f5f7ff';
  panel.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h2 style="font-size:19px">YOUR QUANTUM AURA PASSPORT™</h2><button class="btn ghost" onclick="closePassport()">×</button></div><p>YOUR SAVED PERSONAL JOURNEY</p><div id="passportContent"></div><p style="font-size:12px;opacity:.7;margin-top:20px">Stored on this browser only. Backup contains personal answers; keep it private.</p>';
  overlay.append(panel);overlay.addEventListener('click',e=>{if(e.target===overlay)closePassport()});document.body.append(overlay);
- const b=document.createElement('button');b.className='btn';b.textContent='MY AURA PASSPORT™';b.style.cssText='position:fixed;bottom:72px;right:12px;z-index:9998;font-size:12px;box-shadow:0 8px 28px #000a';b.onclick=openPassport;document.body.append(b);
+ const b=document.createElement('button');b.className='btn';b.textContent='AURA PASSPORT ₹999';b.style.cssText='position:fixed;bottom:72px;right:12px;z-index:9998;font-size:12px;box-shadow:0 8px 28px #000a';b.onclick=openPassport;document.body.append(b);
 }
 
 addPassportUI();
 setLang(L);
 showResumeAction();
+</script><script id="qae-payment-gate-v1">
+// The static GitHub Pages frontend has no trusted payment verification channel.
+// Do not treat localStorage, query parameters or client-set flags as proof of purchase.
+function qaeVerifiedPremium(){return false;}
+function showPassportOffer(){
+ const offer=document.getElementById('qaePremiumOffer');
+ const panel=document.getElementById('scanner');
+ if(panel)panel.classList.add('open');
+ const assessment=document.getElementById('assessment');
+ if(assessment)assessment.classList.add('show');
+ const result=document.getElementById('result');
+ if(result)result.classList.add('show');
+ if(offer){offer.style.display='block';offer.scrollIntoView({block:'nearest'});}
+ else alert('Complete the free Aura Assessment first. Premium checkout is coming soon.');
+}
+function requestPassportCheckout(){
+ alert('₹999 Aura Passport checkout is not live yet. No payment has been taken.');
+}
 </script></body></html>
