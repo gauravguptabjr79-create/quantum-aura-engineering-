@@ -448,14 +448,14 @@ function showPassportOffer(){
  else alert('Complete the free Aura Assessment first. Premium checkout is coming soon.');
 }
 const QAE_PAYMENT_API='https://rllaujgkvfejmomrebss.supabase.co/functions/v1/quantum-payments';
-const QAE_PACKAGES={aura_passport:['Aura Passport',999],consultation_5000:['Aura Alignment — 1 session',5000],consultation_11000:['Transformation Journey — 2 sessions',11000],consultation_21000:['Private Mentorship — 4 sessions',21000]};
+const QAE_PACKAGES={gateway_test_1:['Gateway Verification Test',1],aura_passport:['Aura Passport',999],consultation_5000:['Aura Alignment — 1 session',5000],consultation_11000:['Transformation Journey — 2 sessions',11000],consultation_21000:['Private Mentorship — 4 sessions',21000]};
 function requestPassportCheckout(){qaeOpenCheckout('aura_passport')}
 function qaeOpenCheckout(code){
  const overlay=document.getElementById('qaeCheckoutOverlay'),form=document.getElementById('qaeCheckoutForm');
  if(!overlay||!QAE_PACKAGES[code])return;
  form.reset();form.elements.product_code.value=code;
  document.getElementById('qaeCheckoutTitle').textContent=QAE_PACKAGES[code][0]+' — ₹'+QAE_PACKAGES[code][1].toLocaleString('en-IN');
- document.getElementById('qaeCallOptions').style.display=code==='aura_passport'?'none':'block';
+ document.getElementById('qaeCallOptions').style.display=(code==='aura_passport'||code==='gateway_test_1')?'none':'block';
  document.getElementById('qaeCheckoutStatus').textContent='';
  overlay.style.display='flex';
 }
@@ -472,7 +472,7 @@ async function qaeSubmitCheckout(event){
  const code=form.elements.product_code.value;
  const name=form.elements.customer_name.value.trim(),email=form.elements.customer_email.value.trim(),phone=form.elements.customer_phone.value.trim();
  const method=code==='aura_passport'?'Digital delivery':form.elements.call_method.value;
- const note=code==='aura_passport'?'Aura Passport digital purchase':'Preferred consultation: '+method+'. Preferred day/time (subject to confirmation): '+form.elements.preferred_time.value+'. Monday–Saturday 10:00–18:00 IST; Sunday closed; 30-minute sessions with 15-minute breaks.';
+ const note=code==='gateway_test_1'?'QAE_OWNER_GATEWAY_TEST_ONLY':code==='aura_passport'?'Aura Passport digital purchase':'Preferred consultation: '+method+'. Preferred day/time (subject to confirmation): '+form.elements.preferred_time.value+'. Monday–Saturday 10:00–18:00 IST; Sunday closed; 30-minute sessions with 15-minute breaks.';
  submit.disabled=true;status.textContent='Preparing secure checkout…';
  try{
   const order=await qaePaymentApi({action:'create',product_code:code,name,email,phone,note});
@@ -492,10 +492,13 @@ async function qaeSubmitCheckout(event){
 }
 (function qaeInstallCheckout(){
  const section=document.createElement('section');section.id='qaeConsultationPackages';section.style.cssText='padding:32px 16px;max-width:1050px;margin:24px auto;text-align:center;color:#f3efff';
- section.innerHTML='<h2>PERSONAL GUIDANCE WITH GURU JI</h2><p>Choose a phone or video consultation. Monday–Saturday, 10 AM–6 PM IST. Sunday closed. Every session is 30 minutes, with 15 minutes between sessions.</p><div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:24px 0">'+Object.entries(QAE_PACKAGES).filter(([code])=>code!=='aura_passport').map(([code,p])=>'<div style="padding:20px;border:1px solid #8a80ba;border-radius:16px;flex:1 1 210px;max-width:300px;background:#171631"><h3>'+p[0]+'</h3><p style="font-size:24px">₹'+p[1].toLocaleString('en-IN')+'</p><p>Phone or video • 30 min/session</p><button class="btn" type="button" onclick="qaeOpenCheckout(\''+code+'\')">CHOOSE PACKAGE</button></div>').join('')+'</div><p style="font-size:12px">Sessions are scheduled after verified payment and availability confirmation. Spiritual wellness guidance does not guarantee financial, relationship or medical outcomes.</p>';
+ section.innerHTML='<h2>PERSONAL GUIDANCE WITH GURU JI</h2><p>Choose a phone or video consultation. Monday–Saturday, 10 AM–6 PM IST. Sunday closed. Every session is 30 minutes, with 15 minutes between sessions.</p><div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:24px 0">'+Object.entries(QAE_PACKAGES).filter(([code])=>code!=='aura_passport'&&code!=='gateway_test_1').map(([code,p])=>'<div style="padding:20px;border:1px solid #8a80ba;border-radius:16px;flex:1 1 210px;max-width:300px;background:#171631"><h3>'+p[0]+'</h3><p style="font-size:24px">₹'+p[1].toLocaleString('en-IN')+'</p><p>Phone or video • 30 min/session</p><button class="btn" type="button" onclick="qaeOpenCheckout(\''+code+'\')">CHOOSE PACKAGE</button></div>').join('')+'</div><p style="font-size:12px">Sessions are scheduled after verified payment and availability confirmation. Spiritual wellness guidance does not guarantee financial, relationship or medical outcomes.</p>';
  document.body.appendChild(section);
  const overlay=document.createElement('div');overlay.id='qaeCheckoutOverlay';overlay.style.cssText='display:none;position:fixed;inset:0;z-index:11000;background:#040717ed;align-items:center;justify-content:center;padding:16px;overflow:auto';
  overlay.innerHTML='<div style="width:min(510px,100%);max-height:92vh;overflow:auto;background:#13172e;color:#f8f8ff;border:1px solid #7e8cc2;border-radius:20px;padding:22px"><div style="display:flex;justify-content:space-between;gap:10px"><h2 id="qaeCheckoutTitle">Secure Checkout</h2><button type="button" class="btn ghost" onclick="qaeCloseCheckout()" aria-label="Close">×</button></div><p>All payments are processed by Razorpay.</p><form id="qaeCheckoutForm" onsubmit="qaeSubmitCheckout(event)" style="display:grid;gap:12px"><input type="hidden" name="product_code"><label>Full name<input name="customer_name" required maxlength="100" autocomplete="name" style="display:block;width:100%;padding:12px"></label><label>Email<input name="customer_email" type="email" required maxlength="200" autocomplete="email" style="display:block;width:100%;padding:12px"></label><label>Phone / WhatsApp<input name="customer_phone" type="tel" required pattern="[0-9+ ()-]{10,18}" autocomplete="tel" style="display:block;width:100%;padding:12px"></label><div id="qaeCallOptions"><label>Consultation mode<select name="call_method" style="display:block;width:100%;padding:12px"><option value="Phone Call">Phone Call</option><option value="Video Call">Video Call</option></select></label><label>Preferred date and time (Monday–Saturday, 10 AM–6 PM IST)<input name="preferred_time" type="datetime-local" style="display:block;width:100%;padding:12px"></label><small>Requested time is not a confirmed appointment. Sunday bookings are not available.</small></div><button type="submit" class="btn">CONTINUE TO RAZORPAY</button><p id="qaeCheckoutStatus" role="status" aria-live="polite" style="overflow-wrap:anywhere"></p></form></div>';
  overlay.addEventListener('click',e=>{if(e.target===overlay)qaeCloseCheckout()});document.body.appendChild(overlay);
+  if(new URLSearchParams(location.search).get('gateway_test')==='1'){
+    const t=document.createElement('button');t.type='button';t.className='btn';t.textContent='OWNER TEST CHECKOUT — ₹1';t.style.cssText='display:block;margin:24px auto';t.onclick=()=>qaeOpenCheckout('gateway_test_1');document.body.appendChild(t);
+  }
 })();
 </script><script src="https://checkout.razorpay.com/v1/checkout.js" async></script></body></html>
