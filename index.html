@@ -426,7 +426,7 @@ function addPassportUI(){
  const panel=document.createElement('div');panel.style.cssText='width:min(580px,100%);max-height:90vh;overflow:auto;background:#10162f;border:1px solid #63eaff66;border-radius:24px;padding:24px;color:#f5f7ff';
  panel.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h2 style="font-size:19px">YOUR QUANTUM AURA PASSPORT™</h2><button class="btn ghost" onclick="closePassport()">×</button></div><p>YOUR SAVED PERSONAL JOURNEY</p><div id="passportContent"></div><p style="font-size:12px;opacity:.7;margin-top:20px">Stored on this browser only. Backup contains personal answers; keep it private.</p>';
  overlay.append(panel);overlay.addEventListener('click',e=>{if(e.target===overlay)closePassport()});document.body.append(overlay);
- const b=document.createElement('button');b.className='btn';b.textContent='AURA PASSPORT ₹999';b.style.cssText='position:fixed;bottom:72px;right:12px;z-index:9998;font-size:12px;box-shadow:0 8px 28px #000a';b.onclick=openPassport;document.body.append(b);
+ const b=document.createElement('button');b.className='btn';b.textContent='AURA PASSPORT ₹999';b.style.cssText='position:static;display:block;width:max-content;max-width:100%;margin:18px auto;font-size:12px;box-shadow:0 8px 28px #000a';b.onclick=openPassport;document.body.append(b);
 }
 
 addPassportUI();
