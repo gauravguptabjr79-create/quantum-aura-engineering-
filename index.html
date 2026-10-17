@@ -453,7 +453,7 @@ function requestPassportCheckout(){qaeOpenCheckout('aura_passport')}
 function qaeOpenCheckout(code){
  const overlay=document.getElementById('qaeCheckoutOverlay'),form=document.getElementById('qaeCheckoutForm');
  if(!overlay||!QAE_PACKAGES[code])return;
- form.reset();form.elements.product_code.value=code;
+ form.reset();form.elements.product_code.value=code;document.getElementById('qaeBookingAfterPay').style.display='none';
  document.getElementById('qaeCheckoutTitle').textContent=QAE_PACKAGES[code][0]+' — ₹'+QAE_PACKAGES[code][1].toLocaleString('en-IN');
  document.getElementById('qaeCallOptions').style.display=code==='aura_passport'?'none':'block';
  document.getElementById('qaeCheckoutStatus').textContent='';
@@ -466,7 +466,27 @@ async function qaePaymentApi(data){
  if(!r.ok)throw new Error(j.error||j.message||'Payment service unavailable. Please try later.');
  return j;
 }
-async function qaeSubmitCheckout(event){
+async async function qaeShowBooking(payment,method,code){
+ const area=document.getElementById('qaeBookingAfterPay');area.style.display='block';area.innerHTML='<h3>Book your first 30-minute session</h3><p>Payment verified. Select a date and available time below. Sunday is closed.</p><label>Date <input type="date" id="qaeBookingDate" style="width:100%;padding:10px"></label><label>Available time <select id="qaeBookingSlot" style="width:100%;padding:10px"><option>Choose a date</option></select></label><button type="button" class="btn" id="qaeBookNow">CONFIRM APPOINTMENT</button><p id="qaeBookingMessage" role="status"></p>';
+ const date=area.querySelector('#qaeBookingDate'),slot=area.querySelector('#qaeBookingSlot'),msg=area.querySelector('#qaeBookingMessage');
+ const now=new Date(Date.now()+19800000);date.min=now.toISOString().slice(0,10);date.value=date.min;
+ date.onchange=async()=>{
+  slot.innerHTML='<option>Loading availability…</option>';msg.textContent='';
+  try{const r=await qaePaymentApi({action:'slots',day:date.value});slot.innerHTML='';
+   if(!r.slots?.length){slot.innerHTML='<option value="">No available times — select another date</option>';return}
+   r.slots.forEach(x=>{const opt=document.createElement('option');opt.value=x.value;opt.textContent=x.label;slot.appendChild(opt)})
+  }catch(e){msg.textContent=e.message}
+ };
+ area.querySelector('#qaeBookNow').onclick=async()=>{
+  if(!slot.value||!slot.value.includes('T')){msg.textContent='Select an available time.';return}
+  const btn=area.querySelector('#qaeBookNow');btn.disabled=true;msg.textContent='Reserving…';
+  try{const r=await qaePaymentApi({action:'book',razorpay_order_id:payment.razorpay_order_id,razorpay_payment_id:payment.razorpay_payment_id,starts_at:slot.value,call_method:method,session_number:1});
+   msg.textContent=r.confirmed?'Appointment saved for '+new Date(r.starts_at).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'full',timeStyle:'short'})+' IST. Save this confirmation. Additional sessions will need separate scheduling.':'Could not confirm.';
+  }catch(e){msg.textContent=e.message;btn.disabled=false;date.onchange()}
+ };
+ date.onchange();
+}
+function qaeSubmitCheckout(event){
  event.preventDefault();
  const form=event.currentTarget,submit=form.querySelector('button[type=submit]'),status=document.getElementById('qaeCheckoutStatus');
  const code=form.elements.product_code.value;
@@ -482,7 +502,7 @@ async function qaeSubmitCheckout(event){
     status.textContent='Verifying your payment…';
     try{
      await qaePaymentApi({action:'verify',razorpay_order_id:p.razorpay_order_id,razorpay_payment_id:p.razorpay_payment_id,razorpay_signature:p.razorpay_signature});
-     status.textContent='Payment verified. Reference: '+p.razorpay_payment_id+'. Please keep this reference. Appointment confirmation and premium access are not automatic yet.';
+     status.textContent='Payment verified. Reference: '+p.razorpay_payment_id+'. Please keep this reference.';if(code.startsWith('consultation_')){qaeShowBooking(p,method,code)}else{status.textContent+=' Digital premium access is not automatic yet.';}
      submit.disabled=false;
     }catch(err){status.textContent='Payment response received, but verification is pending. Do not pay again. Contact support with your Razorpay payment reference: '+p.razorpay_payment_id;submit.disabled=false;}
    },modal:{ondismiss:function(){submit.disabled=false;status.textContent='Checkout closed; no new payment has been confirmed.'}}});
@@ -495,7 +515,7 @@ async function qaeSubmitCheckout(event){
  section.innerHTML='<h2>PERSONAL GUIDANCE WITH GURU JI</h2><p>Choose a phone or video consultation. Monday–Saturday, 10 AM–6 PM IST. Sunday closed. Every session is 30 minutes, with 15 minutes between sessions.</p><div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:24px 0">'+Object.entries(QAE_PACKAGES).filter(([code])=>code!=='aura_passport').map(([code,p])=>'<div style="padding:20px;border:1px solid #8a80ba;border-radius:16px;flex:1 1 210px;max-width:300px;background:#171631"><h3>'+p[0]+'</h3><p style="font-size:24px">₹'+p[1].toLocaleString('en-IN')+'</p><p>Phone or video • 30 min/session</p><button class="btn" type="button" onclick="qaeOpenCheckout(\''+code+'\')">CHOOSE PACKAGE</button></div>').join('')+'</div><p style="font-size:12px">Sessions are scheduled after verified payment and availability confirmation. Spiritual wellness guidance does not guarantee financial, relationship or medical outcomes.</p>';
  document.body.appendChild(section);
  const overlay=document.createElement('div');overlay.id='qaeCheckoutOverlay';overlay.style.cssText='display:none;position:fixed;inset:0;z-index:11000;background:#040717ed;align-items:center;justify-content:center;padding:16px;overflow:auto';
- overlay.innerHTML='<div style="width:min(510px,100%);max-height:92vh;overflow:auto;background:#13172e;color:#f8f8ff;border:1px solid #7e8cc2;border-radius:20px;padding:22px"><div style="display:flex;justify-content:space-between;gap:10px"><h2 id="qaeCheckoutTitle">Secure Checkout</h2><button type="button" class="btn ghost" onclick="qaeCloseCheckout()" aria-label="Close">×</button></div><p>All payments are processed by Razorpay.</p><form id="qaeCheckoutForm" onsubmit="qaeSubmitCheckout(event)" style="display:grid;gap:12px"><input type="hidden" name="product_code"><label>Full name<input name="customer_name" required maxlength="100" autocomplete="name" style="display:block;width:100%;padding:12px"></label><label>Email<input name="customer_email" type="email" required maxlength="200" autocomplete="email" style="display:block;width:100%;padding:12px"></label><label>Phone / WhatsApp<input name="customer_phone" type="tel" required pattern="[0-9+ ()-]{10,18}" autocomplete="tel" style="display:block;width:100%;padding:12px"></label><div id="qaeCallOptions"><label>Consultation mode<select name="call_method" style="display:block;width:100%;padding:12px"><option value="Phone Call">Phone Call</option><option value="Video Call">Video Call</option></select></label><label>Preferred date and time (Monday–Saturday, 10 AM–6 PM IST)<input name="preferred_time" type="datetime-local" style="display:block;width:100%;padding:12px"></label><small>Requested time is not a confirmed appointment. Sunday bookings are not available.</small></div><button type="submit" class="btn">CONTINUE TO RAZORPAY</button><p id="qaeCheckoutStatus" role="status" aria-live="polite" style="overflow-wrap:anywhere"></p></form></div>';
+ overlay.innerHTML='<div style="width:min(510px,100%);max-height:92vh;overflow:auto;background:#13172e;color:#f8f8ff;border:1px solid #7e8cc2;border-radius:20px;padding:22px"><div style="display:flex;justify-content:space-between;gap:10px"><h2 id="qaeCheckoutTitle">Secure Checkout</h2><button type="button" class="btn ghost" onclick="qaeCloseCheckout()" aria-label="Close">×</button></div><p>All payments are processed by Razorpay.</p><form id="qaeCheckoutForm" onsubmit="qaeSubmitCheckout(event)" style="display:grid;gap:12px"><input type="hidden" name="product_code"><label>Full name<input name="customer_name" required maxlength="100" autocomplete="name" style="display:block;width:100%;padding:12px"></label><label>Email<input name="customer_email" type="email" required maxlength="200" autocomplete="email" style="display:block;width:100%;padding:12px"></label><label>Phone / WhatsApp<input name="customer_phone" type="tel" required pattern="[0-9+ ()-]{10,18}" autocomplete="tel" style="display:block;width:100%;padding:12px"></label><div id="qaeCallOptions"><label>Consultation mode<select name="call_method" style="display:block;width:100%;padding:12px"><option value="Phone Call">Phone Call</option><option value="Video Call">Video Call</option></select></label><label>Preferred date and time (Monday–Saturday, 10 AM–6 PM IST)<input name="preferred_time" type="datetime-local" style="display:block;width:100%;padding:12px"></label><small>Requested time is not a confirmed appointment. Sunday bookings are not available.</small></div><button type="submit" class="btn">CONTINUE TO RAZORPAY</button><p id="qaeCheckoutStatus" role="status" aria-live="polite" style="overflow-wrap:anywhere"></p><div id="qaeBookingAfterPay" style="display:none"></div></form></div>';
  overlay.addEventListener('click',e=>{if(e.target===overlay)qaeCloseCheckout()});document.body.appendChild(overlay);
 })();
 </script><script src="https://checkout.razorpay.com/v1/checkout.js" async></script></body></html>
